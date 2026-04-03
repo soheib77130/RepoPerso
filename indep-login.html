@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Freelinko — Connexion indépendant</title>
+  <meta name="description" content="Connexion indépendant Freelinko." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-theme.css" />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --accent:#22c55e;
+      --accent2:#60a5fa;
+      --radius:18px;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
+      --shadow-soft: 0 12px 28px rgba(0,0,0,.32);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(96,165,250,.2), transparent 55%),
+        radial-gradient(900px 700px at 80% 0%, rgba(34,197,94,.18), transparent 55%),
+        linear-gradient(180deg, rgba(7,11,18,.8), rgba(7,11,18,1)),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    ::selection{background:rgba(96,165,250,.35); color:#0b1220}
+    .container{max-width:900px; margin:0 auto; padding:24px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display:grid; place-items:center; font-weight:900; color:#071018;
+      box-shadow: 0 12px 26px rgba(96,165,250,.24);
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(17,24,39,.6);
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+    }
+    .card h1{margin:0 0 6px; font-size:28px}
+    .hint{color:var(--muted); font-weight:650; margin:0 0 16px}
+    .formGrid{display:grid; gap:12px}
+    .inputWrap{position:relative}
+    .inputToggle{
+      position:absolute; right:10px; top:50%; transform: translateY(-50%);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      border-radius: 10px;
+      padding:6px 8px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .helper{color:var(--muted); font-weight:650; font-size:13px}
+    .formFooter{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .sideNote{
+      margin-top:16px;
+      border:1px dashed rgba(96,165,250,.3);
+      background: rgba(96,165,250,.08);
+      border-radius: 14px;
+      padding:12px;
+      color:#cfe6ff;
+      font-weight:650;
+    }
+    input{
+      width:100%;
+      padding:12px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(17,24,39,.7);
+      color:var(--text);
+      font-weight:650;
+      font-family: inherit;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    input:focus-visible{
+      outline:none;
+      border-color: rgba(96,165,250,.6);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.2);
+      background: rgba(17,24,39,.85);
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 14px; border-radius:14px; font-weight:800; cursor:pointer;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .08s ease;
+    }
+    .btn:hover{border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.1); box-shadow: 0 10px 18px rgba(0,0,0,.2)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      border-color: transparent; color:#061019;
+      box-shadow: 0 18px 30px rgba(34,197,94,.25);
+    }
+    .btn:focus-visible{outline:2px solid rgba(96,165,250,.7); outline-offset:2px}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <div class="logo">S</div>
+        <div>Freelinko</div>
+      </a>
+      <a class="btn" href="index.html#independant">Retour à l'espace indépendant</a>
+    </header>
+
+    <section class="card">
+      <h1>Connexion indépendant</h1>
+      <p class="hint">Accédez à vos missions, à vos prix et à vos revenus.</p>
+      <form class="formGrid" id="indepLoginForm">
+        <input type="email" name="email" placeholder="Email pro" required />
+        <div class="inputWrap">
+          <input type="password" name="password" placeholder="Mot de passe" required />
+          <button class="inputToggle" type="button" data-toggle-password>Afficher</button>
+        </div>
+        <div class="formFooter">
+          <label class="helper"><input type="checkbox" name="remember" /> Rester connecté</label>
+          <a class="helper" href="indep-signup.html">Mot de passe oublié ?</a>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="submit">Se connecter</button>
+          <a class="btn" href="indep-signup.html">Créer un compte indépendant</a>
+        </div>
+      </form>
+      <div class="sideNote">
+        🎯 Missions qualifiées • Négociation claire • Paiement sécurisé.
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://skfqoyyoahuaffshimnc.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_yxLCOU94zhGck9yvGYch5Q_ePCPd9Yq";
+    const indepLoginForm = document.getElementById("indepLoginForm");
+    const supabaseClient = window.supabase?.createClient?.(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storage: window.localStorage
+      }
+    });
+    const togglePassword = document.querySelector("[data-toggle-password]");
+    const passwordField = indepLoginForm?.querySelector("[name='password']");
+
+    async function redirectIfLoggedIn(){
+      if (!supabaseClient) return;
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session?.user){
+        window.location.href = "indep-dashboard.html";
+      }
+    }
+
+    redirectIfLoggedIn();
+
+    if (togglePassword && passwordField){
+      togglePassword.addEventListener("click", () => {
+        const isHidden = passwordField.type === "password";
+        passwordField.type = isHidden ? "text" : "password";
+        togglePassword.textContent = isHidden ? "Masquer" : "Afficher";
+      });
+    }
+
+    if (indepLoginForm){
+      indepLoginForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!supabaseClient){
+          alert("Configurez Supabase pour activer la connexion.");
+          return;
+        }
+        const formData = new FormData(indepLoginForm);
+        const email = formData.get("email").toString().trim();
+        const password = formData.get("password").toString();
+        supabaseClient.auth.signInWithPassword({ email, password })
+          .then(async ({ data, error }) => {
+            if (error){
+              alert(error.message);
+              return;
+            }
+            const role = data.user?.user_metadata?.role;
+            if (role && role !== "independant"){
+              await supabaseClient.auth.signOut();
+              alert("Ce compte n'est pas un compte indépendant.");
+              return;
+            }
+            alert("Connexion réussie.");
+            window.location.href = "indep-dashboard.html";
+          });
+      });
+    }
+  </script>
+</body>
+</html>

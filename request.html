@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Freelinko — Déposer une demande</title>
+  <meta name="description" content="Déposer une demande de service sur Freelinko." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-theme.css" />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --accent:#22c55e;
+      --accent2:#60a5fa;
+      --radius:18px;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
+      --shadow-soft: 0 12px 28px rgba(0,0,0,.32);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(96,165,250,.2), transparent 55%),
+        radial-gradient(900px 700px at 80% 0%, rgba(34,197,94,.18), transparent 55%),
+        linear-gradient(180deg, rgba(7,11,18,.8), rgba(7,11,18,1)),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    ::selection{background:rgba(96,165,250,.35); color:#0b1220}
+    .container{max-width:980px; margin:0 auto; padding:24px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display:grid; place-items:center; font-weight:900; color:#071018;
+      box-shadow: 0 12px 26px rgba(96,165,250,.24);
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(17,24,39,.6);
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+      display:grid; gap:12px;
+    }
+    .card h1{margin:0 0 6px; font-size:28px}
+    .hint{color:var(--muted); font-weight:650; margin:0 0 16px}
+    .formGrid{display:grid; gap:12px}
+    .formRow{display:grid; gap:12px; grid-template-columns: repeat(2, minmax(0, 1fr))}
+    @media (max-width: 640px){ .formRow{grid-template-columns:1fr} }
+    input, textarea, select{
+      width:100%;
+      padding:12px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(17,24,39,.7);
+      color:var(--text);
+      font-weight:650;
+      font-family: inherit;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible{
+      outline:none;
+      border-color: rgba(96,165,250,.6);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.2);
+      background: rgba(17,24,39,.85);
+    }
+    select option{background:#1a2332;color:#e5e7eb}
+    textarea{min-height:140px; resize:vertical}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 14px; border-radius:14px; font-weight:800; cursor:pointer;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .08s ease;
+    }
+    .btn:hover{border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.1); box-shadow: 0 10px 18px rgba(0,0,0,.2)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      border-color: transparent; color:#061019;
+      box-shadow: 0 18px 30px rgba(34,197,94,.25);
+    }
+    .btn:focus-visible{outline:2px solid rgba(96,165,250,.7); outline-offset:2px}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    .pill{padding:6px 10px; border-radius:999px; background: rgba(96,165,250,.15); border:1px solid rgba(96,165,250,.22); font-weight:700; font-size:12px}
+    .list{margin:0; padding:0; list-style:none; display:grid; gap:6px}
+    .stepper{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+    .stepper span{padding:6px 10px; border-radius:999px; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); font-weight:700; font-size:12px}
+    .stepper span.active{background: rgba(34,197,94,.2); border-color: rgba(34,197,94,.4)}
+    .stepProgress{height:8px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .stepProgressFill{height:100%; width:25%; background: linear-gradient(135deg, var(--accent2), var(--accent)); transition: width .2s ease}
+    .step{display:none}
+    .step.active{display:grid; gap:12px}
+    .checklist{display:grid; gap:8px}
+    .checklist label{display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background: rgba(17,24,39,.65); font-weight:600}
+    .checklist input{width:auto}
+    .muted{color:var(--muted); font-weight:600}
+    .inlineActions{display:flex; gap:8px; flex-wrap:wrap}
+    .metaRow{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .statusNote{color:var(--muted); font-weight:650; font-size:13px}
+    .budgetBox{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(17,24,39,.6);
+      border-radius: 14px;
+      padding:12px;
+      display:grid; gap:6px;
+    }
+    .budgetRow{
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+      font-weight:700;
+    }
+    .budgetRow span{color:var(--muted); font-weight:650}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <svg height="38" viewBox="0 0 260 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="260" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#22c55e"/><stop offset="50%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs>
+          <path d="M8 22a8 8 0 010-11.3l2.8-2.8a1 1 0 011.4 1.4L9.4 12.1a6 6 0 008.5 8.5l2.8-2.8a1 1 0 011.4 1.4l-2.8 2.8A8 8 0 018 22z" fill="url(#logoGrad)"/>
+          <path d="M30 16a8 8 0 010 11.3l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8a6 6 0 00-8.5-8.5l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8A8 8 0 0130 16z" fill="url(#logoGrad)"/>
+          <text x="42" y="28" font-family="'Space Grotesk','Inter',sans-serif" font-weight="700" font-size="26" fill="url(#logoGrad)" letter-spacing="1">FREELINKO</text>
+        </svg>
+      </a>
+      <a class="btn" href="dashboard.html">Mon espace client</a>
+    </header>
+
+    <section class="card">
+      <h1>Déposer une demande</h1>
+      <p class="hint">Brief guidé → matching intelligent → discussion claire pour cadrer le prix et les livrables.</p>
+      <form class="formGrid" id="requestForm">
+        <div class="stepper" id="stepper">
+          <span data-step="0" class="active">1. Projet</span>
+          <span data-step="1">2. Détails</span>
+          <span data-step="2">3. Cahier des charges</span>
+          <span data-step="3">4. Récapitulatif</span>
+        </div>
+        <div class="stepProgress" aria-hidden="true">
+          <div class="stepProgressFill" id="stepProgressFill"></div>
+        </div>
+
+        <div class="step active" data-step="0">
+          <div class="formRow">
+            <input type="text" name="title" placeholder="Titre du projet" required />
+            <select name="category" id="categorySelect" required>
+              <option value="">Catégorie</option>
+              <option>Site web</option>
+              <option>Logo & design</option>
+              <option>Vidéo & montage</option>
+              <option>Rédaction</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div class="formRow">
+            <input type="number" name="budget" placeholder="Budget (€)" min="0" required />
+            <select name="deadline" required>
+              <option value="">Délai souhaité</option>
+              <option>7 jours</option>
+              <option>14 jours</option>
+              <option>1 mois</option>
+              <option>Flexible</option>
+            </select>
+          </div>
+          <div class="budgetBox" aria-live="polite" style="gap:10px">
+            <div class="budgetRow"><span>Prix Freelance</span><strong id="freelanceNet">0 €</strong></div>
+            <div class="budgetRow" style="color:#60a5fa"><span>&#x1f6e1;&#xfe0f; Protection Freelinko (5% + 0,70€)</span><strong id="feeAmount">0 €</strong></div>
+            <div style="display:grid;gap:4px;padding:8px 0;border-top:1px solid rgba(255,255,255,.06)">
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:600">&#x1f512; Paiement securise par Stripe</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:600">&#x1f3e6; Fonds bloques jusqu'a validation</div>
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-weight:600">&#x1f6e1;&#xfe0f; Assurance litige incluse</div>
+            </div>
+            <div class="budgetRow" style="font-size:16px;padding-top:6px;border-top:1px solid rgba(255,255,255,.08)"><span>Total TTC</span><strong id="totalAmount" style="color:#86efac">0 €</strong></div>
+          </div>
+          <div class="formRow">
+            <select name="urgency" required>
+              <option value="">Urgence du projet</option>
+              <option>Urgent (dès que possible)</option>
+              <option>Normal (planning classique)</option>
+              <option>Flexible (à organiser)</option>
+            </select>
+            <select name="collab" required>
+              <option value="">Mode de collaboration</option>
+              <option>Échanges rapides (chat)</option>
+              <option>Points hebdo</option>
+              <option>Autonome (peu d'échanges)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step" data-step="1">
+          <div class="formRow">
+            <input type="text" name="style" placeholder="Style / direction (ex: minimaliste, premium)" />
+            <input type="text" name="skills" placeholder="Compétences clés (ex: Webflow, SEO)" />
+          </div>
+          <div class="formRow">
+            <select name="format" required>
+              <option value="">Format attendu</option>
+              <option>Livraison clé en main</option>
+              <option>Prototype / maquette</option>
+              <option>Conseil / audit</option>
+            </select>
+            <select name="quality" required>
+              <option value="">Niveau d'exigence</option>
+              <option>Standard</option>
+              <option>Premium</option>
+              <option>Expert</option>
+            </select>
+          </div>
+          <textarea name="description" placeholder="Décrivez votre besoin, livrables attendus, contraintes..." required></textarea>
+        </div>
+
+        <div class="step" data-step="2">
+          <p class="muted">Cochez les livrables souhaités. Le cahier des charges s’adapte à la catégorie sélectionnée.</p>
+          <div class="checklist" id="checklistContainer"></div>
+          <div class="inlineActions">
+            <input type="text" id="customItemInput" placeholder="Ajouter un point personnalisé" />
+            <button class="btn" type="button" id="addChecklistItem">Ajouter</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="3">
+          <div class="card" style="background:rgba(17,24,39,.7)">
+            <h3>Récapitulatif</h3>
+            <p class="muted" id="recapText">Complétez les étapes précédentes pour voir le résumé.</p>
+            <ul class="list" id="recapList"></ul>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn" type="button" id="prevStep">Précédent</button>
+          <button class="btn" type="button" id="nextStep">Suivant</button>
+          <button class="btn" type="button" id="saveDraft">Sauvegarder le brouillon</button>
+          <button class="btn primary" type="submit">Publier ma demande</button>
+          <span class="pill" id="requestStatus">Connexion requise</span>
+        </div>
+        <div class="metaRow">
+          <span class="statusNote" id="draftStatus">Brouillon non sauvegardé</span>
+          <span class="statusNote">En moyenne, un indépendant qualifié postule en moins de 24h.</span>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://skfqoyyoahuaffshimnc.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_yxLCOU94zhGck9yvGYch5Q_ePCPd9Yq";
+    const supabaseClient = window.supabase?.createClient?.(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storage: window.localStorage
+      }
+    });
+    const requestForm = document.getElementById("requestForm");
+    const requestStatus = document.getElementById("requestStatus");
+    const submitButton = requestForm?.querySelector("button[type='submit']");
+    const steps = Array.from(document.querySelectorAll(".step"));
+    const stepper = document.getElementById("stepper");
+    const prevStepBtn = document.getElementById("prevStep");
+    const nextStepBtn = document.getElementById("nextStep");
+    const recapText = document.getElementById("recapText");
+    const recapList = document.getElementById("recapList");
+    const checklistContainer = document.getElementById("checklistContainer");
+    const addChecklistItem = document.getElementById("addChecklistItem");
+    const customItemInput = document.getElementById("customItemInput");
+    const categorySelect = document.getElementById("categorySelect");
+    const feeAmount = document.getElementById("feeAmount");
+    const totalAmount = document.getElementById("totalAmount");
+    const budgetField = requestForm?.querySelector("[name='budget']");
+    const stepProgressFill = document.getElementById("stepProgressFill");
+    const saveDraftButton = document.getElementById("saveDraft");
+    const draftStatus = document.getElementById("draftStatus");
+    const draftKey = "freelinko-request-draft";
+    let currentStep = 0;
+
+    const checklistByCategory = {
+      "Site web": [
+        "Audit du besoin et cadrage",
+        "Maquette / wireframes",
+        "Développement responsive",
+        "Optimisation SEO de base",
+        "Mise en ligne + documentation"
+      ],
+      "Logo & design": [
+        "Moodboard / inspirations",
+        "2-3 propositions de logo",
+        "Déclinaisons (couleurs, noir & blanc)",
+        "Charte graphique simplifiée",
+        "Fichiers sources livrés"
+      ],
+      "Vidéo & montage": [
+        "Storyboard / script court",
+        "Montage vidéo",
+        "Sound design",
+        "Sous-titres",
+        "Exports multi-formats"
+      ],
+      "Rédaction": [
+        "Brief éditorial",
+        "Plan détaillé",
+        "Rédaction du contenu",
+        "Relecture / corrections",
+        "Optimisation SEO (mots-clés)"
+      ],
+      "Autre": [
+        "Diagnostic du besoin",
+        "Plan d'action",
+        "Livrables principaux",
+        "Suivi et ajustements"
+      ]
+    };
+
+    function renderChecklist(category){
+      if (!checklistContainer) return;
+      checklistContainer.innerHTML = "";
+      const items = checklistByCategory[category] || checklistByCategory["Autre"];
+      items.forEach((item) => {
+        const id = `item-${item.replace(/\s+/g, "-").toLowerCase()}`;
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="checkbox" checked data-item="${item}"/>${item}`;
+        label.querySelector("input").id = id;
+        checklistContainer.appendChild(label);
+      });
+    }
+
+    function updateStepper(){
+      steps.forEach((step) => {
+        step.classList.toggle("active", Number(step.dataset.step) === currentStep);
+      });
+      if (stepper){
+        stepper.querySelectorAll("span").forEach((span) => {
+          span.classList.toggle("active", Number(span.dataset.step) === currentStep);
+        });
+      }
+      if (stepProgressFill){
+        const progressValue = ((currentStep + 1) / steps.length) * 100;
+        stepProgressFill.style.width = `${progressValue}%`;
+      }
+      if (prevStepBtn) prevStepBtn.disabled = currentStep === 0;
+      if (nextStepBtn) nextStepBtn.style.display = currentStep === steps.length - 1 ? "none" : "inline-flex";
+      if (recapText && recapList && currentStep === steps.length - 1){
+        const data = new FormData(requestForm);
+        recapText.textContent = "Voici un aperçu de votre demande avant matching.";
+        recapList.innerHTML = `
+          <li><strong>${data.get("title") || "Projet"}</strong> — ${data.get("category") || "Catégorie"}</li>
+          <li>Budget cible : ${data.get("budget") || "—"} €</li>
+          <li>Délai : ${data.get("deadline") || "—"} • Urgence : ${data.get("urgency") || "—"}</li>
+          <li>Format : ${data.get("format") || "—"} • Exigence : ${data.get("quality") || "—"}</li>
+        `;
+      }
+    }
+
+    function formatCurrency(value){
+      return new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(value);
+    }
+
+    function updateBudgetSummary(){
+      if (!budgetField || !feeAmount || !totalAmount) return;
+      const budget = Number(budgetField.value || 0);
+      const fee = budget > 0 ? Math.round((budget * 0.05 + 0.70) * 100) / 100 : 0;
+      const total = budget + fee;
+      const freelanceNet = document.getElementById("freelanceNet");
+      if (freelanceNet) freelanceNet.textContent = formatCurrency(budget) + " (Net pour le talent)";
+      feeAmount.textContent = fee > 0 ? fee.toFixed(2) + " \u20ac" : "0 \u20ac";
+      totalAmount.textContent = formatCurrency(total);
+    }
+
+    async function hydrateStatus(){
+      if (!supabaseClient || !requestStatus) return;
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session?.user){
+        requestStatus.textContent = "Connexion requise";
+        return;
+      }
+      requestStatus.textContent = "Connecté";
+    }
+
+    function setStatus(text){
+      if (requestStatus) requestStatus.textContent = text;
+    }
+
+    function setSubmitting(isSubmitting){
+      if (submitButton){
+        submitButton.disabled = isSubmitting;
+        submitButton.textContent = isSubmitting ? "Publication en cours..." : "Publier ma demande";
+      }
+    }
+
+    function collectDraft(){
+      const formData = new FormData(requestForm);
+      const checklist = Array.from(checklistContainer?.querySelectorAll("input[type='checkbox']") || [])
+        .map((checkbox) => ({
+          label: checkbox.dataset.item,
+          checked: checkbox.checked
+        }));
+      return {
+        data: Object.fromEntries(formData.entries()),
+        checklist,
+        step: currentStep
+      };
+    }
+
+    function applyDraft(draft){
+      if (!draft || !requestForm) return;
+      Object.entries(draft.data || {}).forEach(([key, value]) => {
+        const field = requestForm.querySelector(`[name="${key}"]`);
+        if (field){
+          field.value = value;
+        }
+      });
+      renderChecklist((draft.data?.category || "Autre").toString());
+      if (draft.checklist && checklistContainer){
+        checklistContainer.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
+          const item = draft.checklist.find((entry) => entry.label === checkbox.dataset.item);
+          if (item) checkbox.checked = item.checked;
+        });
+      }
+      currentStep = 3;
+      updateStepper();
+      setStatus("Prêt à déposer");
+    }
+
+    function saveDraft(){
+      if (!requestForm) return;
+      const draft = collectDraft();
+      window.localStorage.setItem(draftKey, JSON.stringify(draft));
+      if (draftStatus){
+        const now = new Date();
+        draftStatus.textContent = `Brouillon sauvegardé à ${now.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
+      }
+    }
+
+    function loadDraft(){
+      try {
+        const raw = window.localStorage.getItem(draftKey);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function clearDraft(){
+      window.localStorage.removeItem(draftKey);
+    }
+
+    hydrateStatus();
+    renderChecklist(categorySelect?.value || "Autre");
+    updateStepper();
+
+    const existingDraft = loadDraft();
+    if (existingDraft){
+      applyDraft(existingDraft);
+      if (draftStatus){
+        draftStatus.textContent = "Brouillon récupéré automatiquement.";
+      }
+    }
+
+    if (categorySelect){
+      categorySelect.addEventListener("change", (event) => {
+        renderChecklist(event.target.value || "Autre");
+      });
+    }
+
+    if (budgetField){
+      budgetField.addEventListener("input", updateBudgetSummary);
+      updateBudgetSummary();
+    }
+
+    if (addChecklistItem && customItemInput){
+      addChecklistItem.addEventListener("click", () => {
+        const value = customItemInput.value.trim();
+        if (!value) return;
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="checkbox" checked data-item="${value}"/>${value}`;
+        checklistContainer?.appendChild(label);
+        customItemInput.value = "";
+      });
+    }
+
+    if (prevStepBtn){
+      prevStepBtn.addEventListener("click", () => {
+        currentStep = Math.max(0, currentStep - 1);
+        updateStepper();
+      });
+    }
+
+    if (nextStepBtn){
+      nextStepBtn.addEventListener("click", () => {
+        currentStep = Math.min(steps.length - 1, currentStep + 1);
+        updateStepper();
+      });
+    }
+
+    if (saveDraftButton){
+      saveDraftButton.addEventListener("click", () => {
+        saveDraft();
+      });
+    }
+
+    if (requestForm){
+      requestForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        // Show all steps temporarily to validate hidden fields
+        steps.forEach(s => s.style.display = "grid");
+        const isValid = requestForm.checkValidity();
+        if (!isValid){
+          const invalidField = requestForm.querySelector(":invalid");
+          if (invalidField){
+            const invalidStep = invalidField.closest(".step");
+            if (invalidStep){
+              currentStep = Number(invalidStep.dataset.step || 0);
+              updateStepper();
+            }
+          }
+          // Restore display
+          steps.forEach((s, i) => s.style.display = i === currentStep ? "grid" : "none");
+          requestForm.reportValidity();
+          return;
+        }
+        // Restore display
+        steps.forEach((s, i) => s.style.display = i === currentStep ? "grid" : "none");
+        if (!supabaseClient){
+          alert("Configurez Supabase pour activer l'envoi.");
+          return;
+        }
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        const user = session?.user;
+        if (!user){
+          saveDraft();
+          alert("Créez un compte pour finaliser la demande. Vous reprendrez ici.");
+          window.location.href = "signup.html";
+          return;
+        }
+        const role = user.user_metadata?.role;
+        if (role && role !== "client"){
+          alert("Seuls les comptes client peuvent déposer une demande.");
+          return;
+        }
+        setSubmitting(true);
+        setStatus("Match en cours");
+        const formData = new FormData(requestForm);
+        const checklist = Array.from(checklistContainer?.querySelectorAll("input[type='checkbox']") || [])
+          .map((checkbox) => ({
+            label: checkbox.dataset.item,
+            checked: checkbox.checked
+          }));
+        const questionnaire = {
+          urgency: formData.get("urgency"),
+          collaboration: formData.get("collab"),
+          format: formData.get("format"),
+          quality: formData.get("quality")
+        };
+        const payload = {
+          client_user_id: user.id,
+          title: formData.get("title").toString().trim(),
+          category: formData.get("category").toString().trim(),
+          budget: Number(formData.get("budget")),
+          deadline: formData.get("deadline").toString().trim(),
+          style: formData.get("style").toString().trim(),
+          skills: formData.get("skills").toString().trim(),
+          description: formData.get("description").toString().trim(),
+          questionnaire,
+          spec_checklist: checklist,
+          status: "en_attente"
+        };
+        const { error } = await supabaseClient.from("requests").insert(payload);
+        setSubmitting(false);
+        if (error){
+          setStatus("Erreur");
+          alert(error.message);
+          return;
+        }
+        // Notify online indeps
+        const { data: onlineIndeps } = await supabaseClient
+          .from("independants")
+          .select("user_id")
+          .in("status", ["en_ligne", "disponible", "online"]);
+        if (onlineIndeps && onlineIndeps.length > 0) {
+          const notifs = onlineIndeps.map(function(ind) {
+            return {
+              recipient_user_id: ind.user_id,
+              type: "new_request",
+              title: "Nouvelle demande",
+              body: (payload.title || "Mission") + " — " + (payload.budget ? payload.budget + " \u20ac" : "Budget \u00e0 d\u00e9finir"),
+              expires_at: new Date(Date.now() + 120000).toISOString()
+            };
+          });
+          await supabaseClient.from("notifications").insert(notifs).catch(function(){});
+        }
+        setStatus("Demande envoyée");
+        alert("Demande envoyée ! Les indépendants disponibles seront notifiés. Vous pouvez suivre les candidatures depuis votre dashboard.");
+        clearDraft();
+        requestForm.reset();
+        if (draftStatus) draftStatus.textContent = "Brouillon non sauvegardé";
+        window.location.href = "dashboard.html";
+      });
+    }
+  </script>
+</body>
+</html>

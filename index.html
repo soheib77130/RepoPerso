@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Freelinko — Trouvez le bon independant, en toute confiance</title>
+  <meta name="description" content="Freelinko met en relation clients et independants qualifies avec paiement escrow securise. Les frais les plus bas du marche, support humain 7j/7."/>
+  <meta name="theme-color" content="#050a14"/>
+  <meta property="og:title" content="Freelinko — Services independants, simplement"/>
+  <meta property="og:description" content="Embauchez un professionnel qualifie en 2 minutes. Paiement securise par escrow, les frais les plus bas du marche."/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#050a14;--surface:#0a1122;--surface2:#0f1730;
+      --border:rgba(255,255,255,.06);--border-hover:rgba(255,255,255,.12);
+      --text:#cdd5e0;--text-secondary:#7a8599;--white:#f0f4ff;
+      --blue:#3b82f6;--blue-soft:rgba(59,130,246,.12);--blue-glow:rgba(59,130,246,.25);
+      --green:#22c55e;--green-soft:rgba(34,197,94,.12);--green-glow:rgba(34,197,94,.25);
+      --purple:#a855f7;--purple-soft:rgba(168,85,247,.12);
+      --amber:#f59e0b;--amber-soft:rgba(245,158,11,.12);
+      --pink:#f472b6;--pink-soft:rgba(244,114,182,.12);
+      --radius:16px;--radius-lg:24px;--radius-xl:32px;
+      --ease:cubic-bezier(.22,1,.36,1);
+      --font:'Inter',system-ui,-apple-system,sans-serif;
+      --font-display:'Space Grotesk','Inter',sans-serif;
+    }
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:hidden;overflow-y:scroll}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit;cursor:pointer}
+    ::selection{background:rgba(59,130,246,.25);color:var(--white)}
+    img{display:block;max-width:100%}
+
+    /* ── LOADER ── */
+    #loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:grid;place-items:center;transition:opacity .6s ease,visibility .6s ease}
+    #loader.done{opacity:0;visibility:hidden;pointer-events:none}
+    .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── CURSOR ── */
+    .cursor{position:fixed;pointer-events:none;z-index:9998;mix-blend-mode:difference;transition:width .35s var(--ease),height .35s var(--ease),opacity .3s ease}
+    .cursor-dot{width:8px;height:8px;background:var(--white);border-radius:50%;transform:translate(-50%,-50%)}
+    .cursor-ring{width:40px;height:40px;border:1.5px solid rgba(255,255,255,.5);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),border-color .3s ease}
+    .cursor-ring.hover{width:64px;height:64px;border-color:var(--blue)}
+    @media(pointer:coarse){.cursor{display:none}}
+
+    /* ── LAYOUT ── */
+    .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+    section{position:relative;z-index:2}
+
+    /* ── AMBIENT BG ── */
+    #particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+    .grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.025;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat}
+
+    /* ── NAV ── */
+    .nav-wrap{position:fixed;top:0;left:0;right:0;z-index:90;padding:16px 24px;transition:all .35s ease}
+    .nav-wrap.scrolled{background:rgba(5,10,20,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--border)}
+    .nav{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--white);letter-spacing:-.3px}
+    .logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;box-shadow:0 0 24px var(--blue-glow);transition:transform .3s var(--ease)}
+    .logo-mark:hover{transform:scale(1.1) rotate(-3deg)}
+    .logo-mark svg{width:20px;height:20px}
+    .nav-links{display:flex;gap:2px;align-items:center}
+    .nav-links a{padding:8px 14px;border-radius:10px;font-size:14px;font-weight:500;color:var(--text-secondary);transition:color .2s ease,background .2s ease}
+    .nav-links a:hover{color:var(--white);background:rgba(255,255,255,.05)}
+    .nav-cta{padding:9px 20px;border-radius:10px;border:none;background:var(--white);color:var(--bg);font-size:14px;font-weight:700;transition:transform .2s var(--ease),box-shadow .2s ease}
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(240,244,255,.15)}
+    .hamburger{display:none;width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--white);place-items:center}
+    @media(max-width:860px){
+      .hamburger{display:grid}
+      .nav-links{display:none;position:absolute;top:calc(100% + 8px);left:12px;right:12px;flex-direction:column;padding:12px;background:rgba(10,17,34,.96);backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+      .nav-links.open{display:flex}
+      .nav-links a{padding:14px 16px;font-size:15px}
+      .nav-cta{display:none}
+    }
+
+    /* ── HERO ── */
+    .hero{min-height:100vh;display:flex;align-items:center;padding:140px 0 100px;position:relative;z-index:2}
+    .hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
+    @media(max-width:960px){.hero-inner{grid-template-columns:1fr;gap:40px}}
+
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:7px 16px 7px 8px;border-radius:999px;border:1px solid rgba(34,197,94,.2);background:rgba(34,197,94,.06);font-size:13px;font-weight:600;color:#86efac;margin-bottom:28px}
+    .hero-eyebrow .live{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 var(--green-glow);animation:livePulse 2s ease-in-out infinite}
+    @keyframes livePulse{0%,100%{box-shadow:0 0 0 0 var(--green-glow)}50%{box-shadow:0 0 0 10px rgba(34,197,94,0)}}
+
+    .hero h1{font-family:var(--font-display);font-size:clamp(38px,5.5vw,72px);font-weight:700;line-height:1.02;letter-spacing:-2px;color:var(--white);margin-bottom:24px}
+    .hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--blue),var(--green),var(--purple));background-size:250% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 6s ease infinite}
+    @keyframes shimmer{0%,100%{background-position:0% center}50%{background-position:100% center}}
+
+    .hero-desc{font-size:18px;line-height:1.75;color:var(--text-secondary);max-width:520px;margin-bottom:36px}
+
+    .hero-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+    .htag{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.02);font-size:13px;font-weight:600;color:var(--text);transition:all .25s var(--ease)}
+    .htag:hover{border-color:var(--blue);background:var(--blue-soft);color:var(--white);transform:translateY(-2px)}
+
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:14px;font-size:15px;font-weight:700;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text);transition:all .25s var(--ease);position:relative;overflow:hidden}
+    .btn:hover{border-color:var(--border-hover);background:rgba(255,255,255,.07);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+    .btn:active{transform:translateY(0)}
+    .btn-primary{background:var(--white);color:var(--bg);border-color:transparent;box-shadow:0 0 40px rgba(240,244,255,.08)}
+    .btn-primary:hover{box-shadow:0 0 50px rgba(240,244,255,.14),0 8px 30px rgba(0,0,0,.2);background:#fff}
+    .btn-glow{background:linear-gradient(135deg,var(--blue),var(--green));color:#050a14;border-color:transparent;box-shadow:0 0 40px var(--blue-glow)}
+    .btn-glow:hover{filter:brightness(1.1);box-shadow:0 0 60px var(--blue-glow),0 8px 30px rgba(0,0,0,.3)}
+    .btn .arrow{transition:transform .2s ease}
+    .btn:hover .arrow{transform:translateX(3px)}
+
+    .hero-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media(max-width:600px){.hero-metrics{grid-template-columns:1fr}}
+    .metric{padding:18px 20px;border-radius:var(--radius);border:1px solid var(--border);background:rgba(255,255,255,.02);backdrop-filter:blur(8px);transition:all .3s var(--ease)}
+    .metric:hover{border-color:var(--border-hover);background:rgba(255,255,255,.04)}
+    .metric-val{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--white);letter-spacing:-.5px}
+    .metric-label{font-size:13px;color:var(--text-secondary);font-weight:500;margin-top:2px}
+
+    /* Hero panel */
+    .hero-panel{border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-xl);padding:32px;position:relative;overflow:hidden;box-shadow:0 0 80px rgba(59,130,246,.05),0 40px 80px rgba(0,0,0,.4)}
+    .hero-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.5),rgba(34,197,94,.5),transparent)}
+    .hero-panel::after{content:'';position:absolute;inset:0;background:radial-gradient(300px circle at 80% 20%,rgba(59,130,246,.06),transparent 60%);pointer-events:none}
+    .panel-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:var(--blue-soft);border:1px solid rgba(59,130,246,.18);font-size:12px;font-weight:700;color:#93c5fd;margin-bottom:20px;letter-spacing:.3px;text-transform:uppercase}
+    .fee-toggle{display:flex;position:relative;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.04);padding:3px;margin-bottom:16px;z-index:2}
+    .fee-tab{flex:1;padding:8px 14px;font-size:12px;font-weight:700;color:var(--text-secondary);background:transparent;border:none;cursor:pointer;border-radius:10px;transition:color .3s;position:relative;z-index:2;white-space:nowrap}
+    .fee-tab.on{color:var(--white)}
+    .fee-slider{position:absolute;top:3px;left:3px;width:calc(50% - 3px);height:calc(100% - 6px);border-radius:10px;background:linear-gradient(135deg,rgba(59,130,246,.25),rgba(34,197,94,.25));border:1px solid rgba(59,130,246,.3);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:1}
+    .fee-slider.right{transform:translateX(100%)}
+    .panel-big{font-family:var(--font-display);font-size:64px;font-weight:700;letter-spacing:-3px;line-height:1;color:var(--white);margin-bottom:6px;position:relative;z-index:1;transition:opacity .25s}
+    .panel-big span{background:linear-gradient(135deg,var(--blue),var(--green));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .panel-sub{color:var(--text-secondary);font-size:15px;margin-bottom:28px;position:relative;z-index:1;transition:opacity .25s}
+    .panel-feature{padding:16px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.02);margin-bottom:10px;position:relative;z-index:1;transition:all .3s var(--ease)}
+    .panel-feature:hover{border-color:var(--border-hover);background:rgba(255,255,255,.04)}
+    .pf-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--blue);margin-bottom:4px}
+    .pf-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:2px}
+    .pf-desc{font-size:13px;color:var(--text-secondary)}
+    .panel-checks{display:grid;gap:8px;margin-top:20px;position:relative;z-index:1}
+    .pcheck{display:flex;gap:10px;align-items:flex-start;font-size:14px;font-weight:500;color:var(--text)}
+    .pcheck-icon{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;background:var(--green-soft);border:1px solid rgba(34,197,94,.2);flex-shrink:0;font-size:11px;color:var(--green)}
+    .pcheck em{font-style:normal;color:var(--text-secondary)}
+
+    /* ── MARQUEE ── */
+    .marquee-section{padding:40px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;position:relative;z-index:2}
+    .marquee-track{display:flex;gap:48px;animation:marquee 30s linear infinite;width:max-content}
+    .marquee-track:hover{animation-play-state:paused}
+    .marquee-item{font-size:15px;font-weight:600;color:var(--text-secondary);white-space:nowrap;display:flex;align-items:center;gap:10px;transition:color .2s ease}
+    .marquee-item:hover{color:var(--white)}
+    .marquee-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15)}
+    @keyframes marquee{to{transform:translateX(-50%)}}
+
+    /* ── SECTION HEADERS ── */
+    .sh{text-align:center;margin-bottom:56px}
+    .sh-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;border:1px solid rgba(59,130,246,.18);background:var(--blue-soft);font-size:12px;font-weight:700;color:#93c5fd;margin-bottom:16px;letter-spacing:.3px;text-transform:uppercase}
+    .sh h2{font-family:var(--font-display);font-size:clamp(28px,4vw,46px);font-weight:700;letter-spacing:-1px;color:var(--white);margin-bottom:14px}
+    .sh p{font-size:17px;color:var(--text-secondary);max-width:520px;margin:0 auto;line-height:1.7}
+
+    /* ── SERVICES ── */
+    .services-section{padding:100px 0}
+    .services-box{padding:32px;border-radius:var(--radius-xl);border:1px solid var(--border);background:var(--surface)}
+    .search-row{display:flex;gap:12px;align-items:center;margin-bottom:28px}
+    .search-row input{flex:1;padding:14px 20px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--white);font-size:15px;font-weight:500;font-family:inherit;transition:all .25s ease}
+    .search-row input:focus{outline:none;border-color:rgba(59,130,246,.4);box-shadow:0 0 0 4px rgba(59,130,246,.08);background:rgba(255,255,255,.05)}
+    .search-row input::placeholder{color:rgba(122,133,153,.5)}
+    .scount{padding:10px 18px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.03);font-size:14px;font-weight:700;color:var(--text-secondary);white-space:nowrap}
+    #serviceEmpty{display:none;padding:24px;border-radius:14px;border:1px dashed var(--border-hover);color:var(--text-secondary);font-weight:600;text-align:center}
+    .sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media(max-width:860px){.sgrid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.sgrid{grid-template-columns:1fr}}
+    .scard{position:relative;border:1px solid var(--border);background:rgba(255,255,255,.015);border-radius:20px;padding:28px;cursor:pointer;color:var(--text);transition:all .4s var(--ease);overflow:hidden}
+    .scard::before{content:'';position:absolute;inset:0;background:radial-gradient(250px circle at var(--mx,50%) var(--my,50%),rgba(59,130,246,.07),transparent 60%);opacity:0;transition:opacity .35s ease;pointer-events:none}
+    .scard:hover::before{opacity:1}
+    .scard:hover{border-color:rgba(59,130,246,.25);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.25),0 0 40px rgba(59,130,246,.04)}
+    .scard-icon{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:24px;margin-bottom:18px;border:1px solid var(--border)}
+    .scard-icon.ic-blue{background:var(--blue-soft);border-color:rgba(59,130,246,.18)}
+    .scard-icon.ic-purple{background:var(--purple-soft);border-color:rgba(168,85,247,.18)}
+    .scard-icon.ic-pink{background:var(--pink-soft);border-color:rgba(244,114,182,.18)}
+    .scard-icon.ic-amber{background:var(--amber-soft);border-color:rgba(245,158,11,.18)}
+    .scard-icon.ic-green{background:var(--green-soft);border-color:rgba(34,197,94,.18)}
+    .scard h3{font-size:17px;font-weight:700;color:var(--white);margin-bottom:6px}
+    .scard p{font-size:14px;color:var(--text-secondary);margin:0}
+    .scard-arrow{position:absolute;top:24px;right:24px;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;border:1px solid var(--border);background:rgba(255,255,255,.03);font-size:14px;color:var(--text-secondary);transition:all .25s var(--ease)}
+    .scard:hover .scard-arrow{border-color:rgba(59,130,246,.3);color:var(--blue);background:var(--blue-soft);transform:translateX(2px)}
+
+    /* ── SPACES ── */
+    .spaces-section{padding:100px 0}
+    .spaces-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:760px){.spaces-grid{grid-template-columns:1fr}}
+    .space{position:relative;border:1px solid var(--border);border-radius:var(--radius-xl);padding:36px;overflow:hidden;transition:all .4s var(--ease)}
+    .space::before{content:'';position:absolute;inset:0;pointer-events:none}
+    .space:hover{transform:translateY(-4px);box-shadow:0 30px 70px rgba(0,0,0,.35)}
+    .space.is-client{background:linear-gradient(160deg,rgba(59,130,246,.05),var(--surface) 60%)}
+    .space.is-client::before{background:radial-gradient(250px circle at 10% 10%,rgba(59,130,246,.1),transparent 60%)}
+    .space.is-pro{background:linear-gradient(160deg,rgba(34,197,94,.05),var(--surface) 60%)}
+    .space.is-pro::before{background:radial-gradient(250px circle at 90% 10%,rgba(34,197,94,.1),transparent 60%)}
+    .space-emoji{font-size:36px;margin-bottom:20px;display:block}
+    .space h3{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white);margin-bottom:10px}
+    .space>p{color:var(--text-secondary);font-size:15px;line-height:1.7;margin-bottom:28px}
+    .space .hero-ctas{margin-bottom:0}
+
+    /* ── FEATURES ── */
+    .features-section{padding:100px 0}
+    .fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media(max-width:860px){.fgrid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.fgrid{grid-template-columns:1fr}}
+    .fcard{padding:28px;border:1px solid var(--border);background:rgba(255,255,255,.015);border-radius:20px;transition:all .4s var(--ease)}
+    .fcard:hover{border-color:var(--border-hover);background:rgba(255,255,255,.03);transform:translateY(-4px)}
+    .fcard-icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:var(--blue-soft);border:1px solid rgba(59,130,246,.18);margin-bottom:18px}
+    .fcard h3{font-size:16px;font-weight:700;color:var(--white);margin-bottom:6px}
+    .fcard p{font-size:14px;color:var(--text-secondary);margin:0;line-height:1.65}
+
+    /* ── FLOW SCHEMA ── */
+    .flow-section{padding:100px 0}
+    .flow-wrap{max-width:880px;margin:0 auto}
+    .flow-tabs{display:flex;gap:6px;justify-content:center;margin-bottom:48px;padding:4px;border-radius:999px;border:1px solid var(--border);background:var(--surface);width:fit-content;margin-left:auto;margin-right:auto}
+    .ftab{padding:10px 22px;border-radius:999px;border:none;background:transparent;color:var(--text-secondary);font-size:14px;font-weight:700;transition:all .3s var(--ease)}
+    .ftab:hover{color:var(--white)}
+    .ftab.on{background:var(--white);color:var(--bg);box-shadow:0 2px 12px rgba(0,0,0,.15)}
+
+    .fpanel{display:none}
+    .fpanel.on{display:block}
+
+    .flow-banner{margin-bottom:36px;padding:16px 28px;border-radius:16px;border:1px solid rgba(59,130,246,.12);background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(34,197,94,.03));display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;font-size:14px;font-weight:700;color:#93c5fd}
+    .flow-banner .fc{font-size:20px;animation:fbob 2s ease-in-out infinite}
+    .flow-banner .fc:nth-child(2){animation-delay:.3s}
+    .flow-banner .fc:nth-child(3){animation-delay:.6s}
+    @keyframes fbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+    .flow-banner .fa{color:rgba(59,130,246,.35);font-size:16px;animation:fapulse 1.6s ease-in-out infinite}
+    @keyframes fapulse{0%,100%{opacity:.35;transform:translateX(0)}50%{opacity:1;transform:translateX(3px)}}
+    .fpanel.green .flow-banner{border-color:rgba(34,197,94,.12);background:linear-gradient(135deg,rgba(34,197,94,.05),rgba(59,130,246,.03));color:#86efac}
+    .fpanel.green .flow-banner .fa{color:rgba(34,197,94,.35)}
+
+    .flow-timeline{display:flex;flex-direction:column;gap:0;position:relative}
+    .fnode{display:grid;grid-template-columns:72px 1fr;gap:24px;align-items:start;padding-bottom:36px;position:relative;opacity:0;transform:translateY(20px)}
+    .fnode.in{animation:fnodeIn .6s var(--ease) forwards}
+    .fnode:nth-child(2).in{animation-delay:.12s}
+    .fnode:nth-child(3).in{animation-delay:.24s}
+    .fnode:nth-child(4).in{animation-delay:.36s}
+    .fnode:nth-child(5).in{animation-delay:.48s}
+    @keyframes fnodeIn{to{opacity:1;transform:translateY(0)}}
+
+    /* Vertical line */
+    .fnode::before{content:'';position:absolute;left:35px;top:72px;bottom:0;width:2px;background:linear-gradient(180deg,rgba(59,130,246,.25),rgba(59,130,246,.05),transparent)}
+    .fnode:last-child::before{display:none}
+    .fpanel.green .fnode::before{background:linear-gradient(180deg,rgba(34,197,94,.25),rgba(34,197,94,.05),transparent)}
+
+    /* Traveling dot */
+    .fnode::after{content:'';position:absolute;left:31px;top:72px;width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 14px var(--blue-glow);opacity:0}
+    .fnode:last-child::after{display:none}
+    .fnode.in::after{animation:dotGo 2.4s ease-in-out infinite .6s}
+    @keyframes dotGo{0%{top:72px;opacity:.8}80%{opacity:.8}100%{top:calc(100% - 4px);opacity:0}}
+    .fpanel.green .fnode::after{background:var(--green);box-shadow:0 0 14px var(--green-glow)}
+
+    /* Circle */
+    .fcircle{width:72px;height:72px;border-radius:22px;display:grid;place-items:center;font-size:28px;border:1px solid rgba(59,130,246,.15);background:rgba(59,130,246,.05);position:relative;transition:all .4s var(--ease);flex-shrink:0}
+    .fcircle .num{position:absolute;top:-5px;right:-5px;width:22px;height:22px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--green));color:#050a14;font-size:11px;font-weight:900;display:grid;place-items:center;box-shadow:0 0 14px var(--blue-glow)}
+    .fcircle::before{content:'';position:absolute;inset:-5px;border-radius:26px;border:2px solid rgba(59,130,246,.15);opacity:0;animation:cping 3.5s ease-in-out infinite}
+    .fnode:nth-child(1) .fcircle::before{animation-delay:0s}
+    .fnode:nth-child(2) .fcircle::before{animation-delay:.7s}
+    .fnode:nth-child(3) .fcircle::before{animation-delay:1.4s}
+    .fnode:nth-child(4) .fcircle::before{animation-delay:2.1s}
+    .fnode:nth-child(5) .fcircle::before{animation-delay:2.8s}
+    @keyframes cping{0%,100%{opacity:0;transform:scale(1)}8%{opacity:1;transform:scale(1)}40%{opacity:0;transform:scale(1.4)}}
+    .fnode:hover .fcircle{border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.1);transform:scale(1.08);box-shadow:0 0 30px rgba(59,130,246,.1)}
+    .fpanel.green .fcircle{border-color:rgba(34,197,94,.15);background:rgba(34,197,94,.05)}
+    .fpanel.green .fcircle::before{border-color:rgba(34,197,94,.15)}
+    .fpanel.green .fcircle .num{background:linear-gradient(135deg,var(--green),#16a34a);box-shadow:0 0 14px var(--green-glow)}
+    .fpanel.green .fnode:hover .fcircle{border-color:rgba(34,197,94,.35);background:rgba(34,197,94,.1);box-shadow:0 0 30px rgba(34,197,94,.1)}
+
+    /* Content card */
+    .fcontent{padding:20px 24px;border-radius:18px;border:1px solid var(--border);background:rgba(255,255,255,.02);transition:all .35s var(--ease);position:relative;overflow:hidden}
+    .fcontent::before{content:'';position:absolute;inset:0;background:radial-gradient(200px circle at var(--fx,50%) var(--fy,50%),rgba(59,130,246,.05),transparent 60%);opacity:0;transition:opacity .3s ease;pointer-events:none}
+    .fnode:hover .fcontent::before{opacity:1}
+    .fnode:hover .fcontent{border-color:var(--border-hover);background:rgba(255,255,255,.035);transform:translateX(4px)}
+    .fcontent h4{font-size:17px;font-weight:700;color:var(--white);margin-bottom:4px}
+    .fcontent>p{font-size:14px;color:var(--text-secondary);margin:0}
+    .fcontent .detail{margin-top:12px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.02);font-size:13px;font-weight:600;color:var(--text-secondary);display:flex;align-items:center;gap:10px}
+    .detail-ic{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:11px;flex-shrink:0;background:var(--blue-soft);border:1px solid rgba(59,130,246,.18)}
+    .fpanel.green .detail-ic{background:var(--green-soft);border-color:rgba(34,197,94,.18)}
+
+    @media(max-width:600px){
+      .fnode{grid-template-columns:52px 1fr;gap:16px}
+      .fcircle{width:52px;height:52px;border-radius:16px;font-size:22px}
+      .fcircle .num{width:18px;height:18px;font-size:10px;top:-4px;right:-4px;border-radius:6px}
+      .fcircle::before{inset:-4px;border-radius:20px}
+      .fnode::before{left:25px}
+      .fnode::after{left:21px}
+    }
+
+    /* ── FAQ ── */
+    .faq-section{padding:100px 0}
+    .faq-list{max-width:720px;margin:0 auto;display:grid;gap:8px}
+    .faq-item{border:1px solid var(--border);border-radius:var(--radius);background:rgba(255,255,255,.015);overflow:hidden;transition:border-color .3s ease}
+    .faq-item:hover{border-color:var(--border-hover)}
+    .faq-q{width:100%;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:none;border:none;color:var(--white);font-size:16px;font-weight:700;text-align:left}
+    .faq-ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;border:1px solid var(--border);background:rgba(255,255,255,.03);flex-shrink:0;transition:all .35s var(--ease);color:var(--text-secondary);font-size:16px}
+    .faq-item.open .faq-ic{background:var(--blue-soft);border-color:rgba(59,130,246,.25);color:var(--blue);transform:rotate(45deg)}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+    .faq-item.open .faq-a{max-height:200px}
+    .faq-a-inner{padding:0 24px 20px;color:var(--text-secondary);font-size:15px;line-height:1.75}
+
+    /* ── TESTIMONIALS ── */
+    .test-section{padding:100px 0}
+    .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media(max-width:860px){.tgrid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.tgrid{grid-template-columns:1fr}}
+    .tcard{border:1px solid var(--border);background:rgba(255,255,255,.015);border-radius:20px;padding:28px;transition:all .4s var(--ease)}
+    .tcard:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+    .tcard-stars{color:var(--amber);font-size:14px;letter-spacing:3px;margin-bottom:16px}
+    .tcard blockquote{font-size:15px;color:var(--text);line-height:1.75;margin-bottom:20px;font-style:italic}
+    .tcard-author{display:flex;align-items:center;gap:12px}
+    .tcard-av{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:rgba(255,255,255,.04);border:1px solid var(--border)}
+    .tcard-name{font-size:14px;font-weight:700;color:var(--white)}
+    .tcard-role{font-size:12px;color:var(--text-secondary)}
+
+    /* ── CTA BANNER ── */
+    .cta-section{padding:100px 0}
+    .cta-banner{position:relative;border-radius:var(--radius-xl);padding:56px 40px;border:1px solid var(--border);overflow:hidden;text-align:center}
+    .cta-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(500px circle at 30% 50%,rgba(59,130,246,.1),transparent),radial-gradient(500px circle at 70% 50%,rgba(34,197,94,.08),transparent),var(--surface)}
+    .cta-banner>*{position:relative;z-index:1}
+    .cta-banner h3{font-family:var(--font-display);font-size:clamp(26px,3.5vw,40px);font-weight:700;color:var(--white);margin-bottom:14px;letter-spacing:-.5px}
+    .cta-banner p{color:var(--text-secondary);font-size:17px;max-width:480px;margin:0 auto 32px;line-height:1.7}
+    .cta-banner .hero-ctas{justify-content:center;margin-bottom:0}
+
+    /* ── CONTACT ── */
+    .contact-section{padding:100px 0}
+    .contact-card{max-width:600px;margin:0 auto;padding:40px;border-radius:var(--radius-xl);border:1px solid var(--border);background:var(--surface);position:relative;overflow:hidden}
+    .contact-card::before{content:'';position:absolute;inset:0;background:radial-gradient(300px circle at 50% 0,rgba(59,130,246,.06),transparent 60%);pointer-events:none}
+    .contact-card>p{text-align:center;color:var(--text-secondary);font-size:14px;margin-bottom:28px;position:relative}
+    .contact-card strong{color:var(--white)}
+    .cform{display:grid;gap:12px;position:relative}
+    .cform-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:560px){.cform-row{grid-template-columns:1fr}}
+    .cform input,.cform textarea{width:100%;padding:14px 18px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--white);font-size:15px;font-weight:500;font-family:inherit;transition:all .25s ease}
+    .cform input:focus,.cform textarea:focus{outline:none;border-color:rgba(59,130,246,.4);box-shadow:0 0 0 4px rgba(59,130,246,.08);background:rgba(255,255,255,.05)}
+    .cform input::placeholder,.cform textarea::placeholder{color:rgba(122,133,153,.45)}
+    .cform textarea{min-height:140px;resize:vertical}
+    .cform .btn{width:100%;justify-content:center}
+
+    /* ── FOOTER ── */
+    footer{position:relative;z-index:2;padding:36px 0;border-top:1px solid var(--border)}
+    .foot{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .foot-brand{font-size:14px;color:var(--text-secondary);font-weight:500}
+    .foot-brand strong{color:var(--white);font-weight:700}
+    .foot-links{display:flex;gap:4px}
+    .foot-links a{padding:8px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-secondary);transition:all .2s ease}
+    .foot-links a:hover{color:var(--white);background:rgba(255,255,255,.04)}
+
+    /* ── SCROLL TO TOP ── */
+    #toTop{position:fixed;right:20px;bottom:20px;z-index:80;width:48px;height:48px;border-radius:14px;border:1px solid var(--border);background:rgba(10,17,34,.85);backdrop-filter:blur(12px);color:var(--white);display:grid;place-items:center;font-size:18px;box-shadow:0 8px 24px rgba(0,0,0,.3);opacity:0;transform:translateY(10px);pointer-events:none;transition:all .35s var(--ease)}
+    #toTop.show{opacity:1;transform:translateY(0);pointer-events:auto}
+    #toTop:hover{border-color:rgba(59,130,246,.3);background:var(--blue-soft)}
+
+    /* ── REVEAL ── */
+    .rv{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+    .rv.vis{opacity:1;transform:translateY(0)}
+    .rv-d1{transition-delay:.1s}.rv-d2{transition-delay:.2s}.rv-d3{transition-delay:.3s}.rv-d4{transition-delay:.4s}.rv-d5{transition-delay:.5s}
+  </style>
+</head>
+<body>
+
+<div id="loader"><div class="spinner"></div></div>
+
+<!-- Ambient -->
+<canvas id="particles"></canvas>
+<div class="grain"></div>
+
+<!-- Custom cursor -->
+<div class="cursor cursor-dot" id="curDot"></div>
+<div class="cursor cursor-ring" id="curRing"></div>
+
+<!-- NAV -->
+<div class="nav-wrap" id="navWrap">
+  <div class="nav">
+    <a class="brand" href="#top">
+      <svg height="38" viewBox="0 0 260 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="260" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#22c55e"/>
+            <stop offset="50%" stop-color="#06b6d4"/>
+            <stop offset="100%" stop-color="#3b82f6"/>
+          </linearGradient>
+        </defs>
+        <!-- Chain-link icon -->
+        <path d="M8 22a8 8 0 010-11.3l2.8-2.8a1 1 0 011.4 1.4L9.4 12.1a6 6 0 008.5 8.5l2.8-2.8a1 1 0 011.4 1.4l-2.8 2.8A8 8 0 018 22z" fill="url(#logoGrad)"/>
+        <path d="M30 16a8 8 0 010 11.3l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8a6 6 0 00-8.5-8.5l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8A8 8 0 0130 16z" fill="url(#logoGrad)"/>
+        <!-- Text -->
+        <text x="42" y="28" font-family="'Space Grotesk','Inter',sans-serif" font-weight="700" font-size="26" fill="url(#logoGrad)" letter-spacing="1">FREELINKO</text>
+      </svg>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services">Services</a>
+      <a href="#schema">Fonctionnement</a>
+      <a href="#avantages">Avantages</a>
+      <a href="#avis">Avis</a>
+      <a href="#contact">Contact</a>
+      <a href="inscription.html">Inscription</a>
+      <a href="connexion.html">Connexion</a>
+    </nav>
+    <a class="nav-cta magnetic" href="request.html">Demarrer un projet</a>
+    <button class="hamburger" id="hamburger" type="button" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow rv"><span class="live"></span> Plateforme ouverte — inscriptions disponibles</div>
+
+        <h1 class="rv rv-d1">Trouvez le bon pro.<br/><em>Payez en confiance.</em></h1>
+
+        <p class="hero-desc rv rv-d2">Decrivez votre besoin, on vous trouve un independant qualifie. Votre argent reste securise en escrow jusqu'a validation par un admin. Simple, transparent, sans surprise.</p>
+
+        <div class="hero-tags rv rv-d2">
+          <span class="htag">Site web</span>
+          <span class="htag">Logo & branding</span>
+          <span class="htag">Video & montage</span>
+          <span class="htag">Redaction SEO</span>
+          <span class="htag">Marketing digital</span>
+        </div>
+
+        <div class="hero-ctas rv rv-d3">
+          <a class="btn btn-glow magnetic" href="request.html">Deposer une demande <span class="arrow">&rarr;</span></a>
+          <a class="btn magnetic" href="#services">Explorer les services</a>
+        </div>
+
+        <div class="hero-metrics rv rv-d3">
+          <div class="metric">
+            <div class="metric-val" data-count="24" data-suffix="h">&nbsp;</div>
+            <div class="metric-label">Reponse moyenne</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val" data-count="120" data-prefix="+">&nbsp;</div>
+            <div class="metric-label">Experts verifies</div>
+          </div>
+          <div class="metric">
+            <div class="metric-val">7j/7</div>
+            <div class="metric-label">Support humain</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero-panel rv rv-d2">
+        <div class="panel-eyebrow">&#x1f512; Escrow securise</div>
+        <!-- Toggle Freelance / Client -->
+        <div class="fee-toggle" id="feeToggle">
+          <button class="fee-tab on" data-fee="freelance" type="button">Je suis Freelance</button>
+          <button class="fee-tab" data-fee="client" type="button">Je suis Client</button>
+          <div class="fee-slider" id="feeSlider"></div>
+        </div>
+        <div class="panel-big" id="feeBig"><span id="feeValue">2%</span></div>
+        <div class="panel-sub" id="feeSub">Gardez 98% de vos gains. La commission la plus basse du marche pour valoriser votre talent.</div>
+        <div class="panel-feature">
+          <div class="pf-label">Suivi en temps reel</div>
+          <div class="pf-title">Dashboard centralise</div>
+          <div class="pf-desc">Messages, statuts et livrables au meme endroit.</div>
+        </div>
+        <div class="panel-feature">
+          <div class="pf-label">Transparence totale</div>
+          <div class="pf-title">Chez Freelinko, on ne taxe pas le travail, on securise la reussite.</div>
+          <div class="pf-desc">Les frais les plus bas tout marche confondu pour la mise en relation de prestation de service.</div>
+        </div>
+        <div class="panel-checks">
+          <div class="pcheck"><span class="pcheck-icon">&#x2713;</span><div>Validation admin avant paiement — <em>zero risque</em></div></div>
+          <div class="pcheck"><span class="pcheck-icon">&#x2713;</span><div>Paiement securise par escrow — <em>fonds bloques</em></div></div>
+          <div class="pcheck"><span class="pcheck-icon">&#x2713;</span><div>Deposez, echangez, lancez — <em>c'est tout</em></div></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track" id="marquee">
+      <span class="marquee-item"><span class="marquee-dot"></span>Startups</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Agences digitales</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>E-commerce</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Createurs de contenu</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>SaaS & tech</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Freelances</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>PME & TPE</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Associations</span>
+      <!-- duplicated for infinite scroll -->
+      <span class="marquee-item"><span class="marquee-dot"></span>Startups</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Agences digitales</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>E-commerce</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Createurs de contenu</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>SaaS & tech</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Freelances</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>PME & TPE</span>
+      <span class="marquee-item"><span class="marquee-dot"></span>Associations</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services-section" id="services">
+    <div class="sh rv">
+      <div class="sh-badge">Services</div>
+      <h2>Trouvez le service qu'il vous faut</h2>
+      <p>Chaque categorie regroupe des independants verifies et disponibles.</p>
+    </div>
+    <div class="services-box rv">
+      <div class="search-row">
+        <input id="sSearch" type="search" placeholder="Rechercher un service (ex : logo, montage, site web...)" aria-label="Rechercher"/>
+        <div class="scount" id="sCount">5 services</div>
+      </div>
+      <div id="serviceEmpty">Aucun service ne correspond a votre recherche.</div>
+      <div class="sgrid" role="list">
+        <button class="scard magnetic" type="button" data-cat="Site Web" role="listitem">
+          <div class="scard-icon ic-blue">&#x1f310;</div>
+          <div class="scard-arrow">&rarr;</div>
+          <h3>Site Web</h3>
+          <p>Site vitrine, e-commerce, landing page sur mesure.</p>
+        </button>
+        <button class="scard magnetic" type="button" data-cat="Logo & Design" role="listitem">
+          <div class="scard-icon ic-purple">&#x1f3a8;</div>
+          <div class="scard-arrow">&rarr;</div>
+          <h3>Logo & Design</h3>
+          <p>Logo, branding, templates et visuels professionnels.</p>
+        </button>
+        <button class="scard magnetic" type="button" data-cat="Video & Montage" role="listitem">
+          <div class="scard-icon ic-pink">&#x1f3ac;</div>
+          <div class="scard-arrow">&rarr;</div>
+          <h3>Video & Montage</h3>
+          <p>Montage, reels, motion design et sous-titres.</p>
+        </button>
+        <button class="scard magnetic" type="button" data-cat="Redaction" role="listitem">
+          <div class="scard-icon ic-amber">&#x270d;&#xfe0f;</div>
+          <div class="scard-arrow">&rarr;</div>
+          <h3>Redaction</h3>
+          <p>Articles, SEO, pages de vente et copywriting.</p>
+        </button>
+        <button class="scard magnetic" type="button" data-cat="Autres services" role="listitem">
+          <div class="scard-icon ic-green">&#x2699;&#xfe0f;</div>
+          <div class="scard-arrow">&rarr;</div>
+          <h3>Sur mesure</h3>
+          <p>Dites-nous votre besoin. On trouve le bon profil.</p>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPACES -->
+  <section class="spaces-section" id="espaces">
+    <div class="sh rv">
+      <div class="sh-badge">Espaces</div>
+      <h2>Choisissez votre parcours</h2>
+      <p>Client ou independant, tout est pense pour vous simplifier la vie.</p>
+    </div>
+    <div class="spaces-grid">
+      <div class="space is-client rv">
+        <span class="space-emoji">&#x1f464;</span>
+        <h3>Espace Client</h3>
+        <p>Suivez vos demandes, echangez avec les independants et validez vos livraisons en toute confiance.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary magnetic" href="signup.html">Creer un compte</a>
+          <a class="btn magnetic" href="login.html">Se connecter</a>
+        </div>
+      </div>
+      <div class="space is-pro rv rv-d1">
+        <span class="space-emoji">&#x1f4bc;</span>
+        <h3>Espace Independant</h3>
+        <p>Recevez des missions qualifiees, fixez vos prix et gardez 98% de vos revenus. Sans engagement.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-glow magnetic" href="indep-signup.html">Devenir independant</a>
+          <a class="btn magnetic" href="indep-login.html">Connexion pro</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" id="avantages">
+    <div class="sh rv">
+      <div class="sh-badge">Avantages</div>
+      <h2>Pourquoi Freelinko change la donne</h2>
+      <p>Tout est concu pour que vous n'ayez plus a vous poser de questions.</p>
+    </div>
+    <div class="fgrid">
+      <div class="fcard rv"><div class="fcard-icon">&#x1f4cb;</div><h3>Brief guide</h3><p>Un formulaire intelligent qui cadre votre besoin — zero aller-retour inutile.</p></div>
+      <div class="fcard rv rv-d1"><div class="fcard-icon">&#x1f3af;</div><h3>Independants tries</h3><p>Chaque profil est verifie, evalue et immediatement disponible pour votre projet.</p></div>
+      <div class="fcard rv rv-d2"><div class="fcard-icon">&#x1f4ca;</div><h3>Dashboard complet</h3><p>Suivez l'avancement, les livrables et les messages en un seul endroit.</p></div>
+      <div class="fcard rv rv-d3"><div class="fcard-icon">&#x1f6e1;&#xfe0f;</div><h3>Escrow securise</h3><p>Votre argent est bloque tant que le travail n'est pas valide par un admin.</p></div>
+      <div class="fcard rv rv-d4"><div class="fcard-icon">&#x1f91d;</div><h3>Support 7j/7</h3><p>Une equipe humaine, reactive et disponible a chaque etape de votre projet.</p></div>
+      <div class="fcard rv rv-d5"><div class="fcard-icon">&#x1f4b0;</div><h3>Frais les plus bas du marche</h3><p>2% pour les freelances, 5% + 0,70&#x20ac; pour les clients. Zero frais caches, zero mauvaise surprise.</p></div>
+    </div>
+  </section>
+
+  <!-- FLOW SCHEMA -->
+  <section class="flow-section" id="schema">
+    <div class="sh rv">
+      <div class="sh-badge">Fonctionnement</div>
+      <h2>Comment ca marche, concretement</h2>
+      <p>Un processus en 5 etapes. Transparent du debut a la fin.</p>
+    </div>
+    <div class="flow-wrap rv">
+      <div class="flow-tabs">
+        <button class="ftab on" data-p="client" type="button">&#x1f464; Cote Client</button>
+        <button class="ftab" data-p="indep" type="button">&#x1f4bc; Cote Independant</button>
+      </div>
+
+      <!-- CLIENT -->
+      <div class="fpanel on" id="fp-client">
+        <div class="flow-banner">
+          <span class="fc">&#x1f464;</span> Client
+          <span class="fa">&rarr;</span>
+          <span class="fc">&#x1f3e6;</span> Escrow
+          <span class="fa">&rarr;</span>
+          <span class="fc">&#x1f9d1;&#x200d;&#x1f4bb;</span> Independant
+        </div>
+        <div class="flow-timeline" id="ft-client">
+          <div class="fnode">
+            <div class="fcircle">&#x1f4b3;<span class="num">1</span></div>
+            <div class="fcontent"><h4>Vous payez</h4><p>Le paiement est initie des la validation de l'offre.</p><div class="detail"><span class="detail-ic">&#x1f512;</span>Transaction chiffree de bout en bout</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f3e6;<span class="num">2</span></div>
+            <div class="fcontent"><h4>Argent bloque en escrow</h4><p>Les fonds sont securises pendant toute la mission.</p><div class="detail"><span class="detail-ic">&#x1f6e1;&#xfe0f;</span>Aucun versement sans validation</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f4e6;<span class="num">3</span></div>
+            <div class="fcontent"><h4>L'independant livre</h4><p>Tous les livrables sont centralises dans la mission.</p><div class="detail"><span class="detail-ic">&#x1f4ce;</span>Fichiers, maquettes et sources au meme endroit</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f50d;<span class="num">4</span></div>
+            <div class="fcontent"><h4>Verification admin</h4><p>Un administrateur controle la conformite avec le cahier des charges.</p><div class="detail"><span class="detail-ic">&#x2705;</span>Double check : admin + client</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f389;<span class="num">5</span></div>
+            <div class="fcontent"><h4>Paiement verse</h4><p>Conforme ? L'argent est immediatement verse a l'independant.</p><div class="detail"><span class="detail-ic">&#x26a1;</span>Versement rapide — frais de protection : 5% + 0,70&#x20ac;</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INDEPENDANT -->
+      <div class="fpanel green" id="fp-indep">
+        <div class="flow-banner">
+          <span class="fc">&#x1f9d1;&#x200d;&#x1f4bb;</span> Vous livrez
+          <span class="fa">&rarr;</span>
+          <span class="fc">&#x1f6e1;&#xfe0f;</span> Admin verifie
+          <span class="fa">&rarr;</span>
+          <span class="fc">&#x1f4b0;</span> Vous etes paye
+        </div>
+        <div class="flow-timeline" id="ft-indep">
+          <div class="fnode">
+            <div class="fcircle">&#x2705;<span class="num">1</span></div>
+            <div class="fcontent"><h4>Le client confirme et paie</h4><p>La mission est financierement securisee avant production.</p><div class="detail"><span class="detail-ic">&#x1f512;</span>Garantie de paiement — travaillez sereinement</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f3e6;<span class="num">2</span></div>
+            <div class="fcontent"><h4>Fonds en escrow</h4><p>L'argent est protege jusqu'a la validation finale.</p><div class="detail"><span class="detail-ic">&#x1f6e1;&#xfe0f;</span>Zero risque d'impaye — garanti par Freelinko</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f4e4;<span class="num">3</span></div>
+            <div class="fcontent"><h4>Vous livrez</h4><p>Fichiers, sources, documentation — tout est centralise.</p><div class="detail"><span class="detail-ic">&#x1f4c1;</span>Upload simple, visible par toutes les parties</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f50e;<span class="num">4</span></div>
+            <div class="fcontent"><h4>Controle admin</h4><p>Verification des livrables vs. cahier des charges.</p><div class="detail"><span class="detail-ic">&#x1f4cb;</span>Verification objective et transparente</div></div>
+          </div>
+          <div class="fnode">
+            <div class="fcircle">&#x1f4b0;<span class="num">5</span></div>
+            <div class="fcontent"><h4>Commission -2%, puis versement</h4><p>Seulement 2% deduits, le reste credite sur votre compte.</p><div class="detail"><span class="detail-ic">&#x1f680;</span>98% pour vous — les frais les plus bas du marche</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="sh rv">
+      <div class="sh-badge">FAQ</div>
+      <h2>Questions frequentes</h2>
+      <p>Tout ce qu'il faut savoir avant de se lancer.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item rv"><button class="faq-q" type="button">Comment fonctionnent les frais Freelinko ?<span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">Les freelances paient 2% de commission a la validation finale — ils gardent 98% de leurs gains. Les clients paient 5% + 0,70&#x20ac; de frais de protection qui couvrent le sequestre, la verification admin et l'assurance litige. Pas de frais d'inscription, pas de frais caches.</div></div></div>
+      <div class="faq-item rv rv-d1"><button class="faq-q" type="button">Puis-je discuter avec l'independant avant de payer ?<span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">Absolument. Vous echangez librement pour cadrer le perimetre, le budget et le delai avant tout engagement financier.</div></div></div>
+      <div class="faq-item rv rv-d2"><button class="faq-q" type="button">Quels types de services sont disponibles ?<span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">Design, developpement, video, redaction, marketing digital et bien plus. Vous pouvez aussi soumettre un brief sur mesure.</div></div></div>
+      <div class="faq-item rv rv-d3"><button class="faq-q" type="button">Que se passe-t-il si je ne suis pas satisfait ?<span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">L'argent reste bloque en escrow tant que la livraison n'est pas validee. Aucun paiement sans votre accord et la verification des livrables par un admin.</div></div></div>
+      <div class="faq-item rv rv-d4"><button class="faq-q" type="button">Combien de temps pour trouver un independant ?<span class="faq-ic">+</span></button><div class="faq-a"><div class="faq-a-inner">En moyenne, vous recevez une proposition qualifiee en moins de 24 heures apres le depot de votre brief.</div></div></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="test-section" id="avis">
+    <div class="sh rv">
+      <div class="sh-badge">Temoignages</div>
+      <h2>Ils ont lance leur projet avec Freelinko</h2>
+      <p>Retours de clients et d'independants.</p>
+    </div>
+    <div class="tgrid">
+      <article class="tcard rv">
+        <div class="tcard-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+        <blockquote>"En 48h j'avais un expert. Le brief est reste clair du debut a la fin. Impressionnant."</blockquote>
+        <div class="tcard-author"><div class="tcard-av">&#x1f469;&#x200d;&#x1f4bc;</div><div><div class="tcard-name">Emma</div><div class="tcard-role">E-commerce &middot; Livraison en 10 jours</div></div></div>
+      </article>
+      <article class="tcard rv rv-d1">
+        <div class="tcard-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+        <blockquote>"Plateforme fluide, briefs bien cadres. Seulement 2% de commission, ca change vraiment la donne."</blockquote>
+        <div class="tcard-author"><div class="tcard-av">&#x1f3a8;</div><div><div class="tcard-name">Yacine</div><div class="tcard-role">Motion designer &middot; 5 missions en 2 mois</div></div></div>
+      </article>
+      <article class="tcard rv rv-d2">
+        <div class="tcard-stars">&#x2605;&#x2605;&#x2605;&#x2605;&#x2605;</div>
+        <blockquote>"Support humain reactif et paiement securise. On sait exactement ou on en est a chaque etape."</blockquote>
+        <div class="tcard-author"><div class="tcard-av">&#x1f3e2;</div><div><div class="tcard-name">Charlotte</div><div class="tcard-role">Agence &middot; Budget maitrise</div></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-section">
+    <div class="cta-banner rv">
+      <h3>Pret a lancer votre projet ?</h3>
+      <p>Creez votre brief et recevez un independant qualifie en moins de 24 heures.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-glow magnetic" href="request.html">Demarrer maintenant <span class="arrow">&rarr;</span></a>
+        <a class="btn magnetic" href="signup.html">Creer un compte gratuit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="sh rv">
+      <div class="sh-badge">Contact</div>
+      <h2>Une question ?</h2>
+      <p>Ecrivez-nous, on repond vite.</p>
+    </div>
+    <div class="contact-card rv">
+      <p>Ou directement par email : <strong>contact@freelinko.com</strong></p>
+      <form class="cform" id="cForm">
+        <div class="cform-row">
+          <input type="text" name="name" placeholder="Votre nom" required/>
+          <input type="email" name="email" placeholder="Votre email" required/>
+        </div>
+        <textarea name="message" placeholder="Decrivez votre projet, budget et delai souhaite..."></textarea>
+        <button class="btn btn-glow magnetic" type="submit">Envoyer ma demande <span class="arrow">&rarr;</span></button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot">
+      <div class="foot-brand"><strong>Freelinko</strong> &mdash; Services independants, simplement. &copy; <span id="yr"></span></div>
+      <div class="foot-links">
+        <a href="#top">Accueil</a>
+        <a href="#schema">Fonctionnement</a>
+        <a href="#avantages">Avantages</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<button id="toTop" type="button" aria-label="Haut de page">&#x2191;</button>
+
+<script>
+// ── LOADER ──
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader')?.classList.add('done'),350));
+
+// ── YEAR ──
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+// ── PARTICLES (canvas) ──
+(function(){
+  const c=document.getElementById('particles'),x=c.getContext('2d');
+  let w,h,pts=[];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<60;i++) pts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+.5,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,o:Math.random()*.3+.1});
+  let mouse={x:-999,y:-999};
+  document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+  function draw(){
+    x.clearRect(0,0,w,h);
+    pts.forEach(p=>{
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      const d=Math.hypot(p.x-mouse.x,p.y-mouse.y);
+      const glow=d<200?(.15*(1-d/200)):0;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle=`rgba(120,160,255,${p.o+glow})`;x.fill();
+    });
+    // connections
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+        if(d<130){
+          x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(pts[j].x,pts[j].y);
+          x.strokeStyle=`rgba(100,150,255,${.06*(1-d/130)})`;x.lineWidth=.8;x.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── CUSTOM CURSOR ──
+(function(){
+  const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+  if(!dot||!ring||matchMedia('(pointer:coarse)').matches) return;
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+  (function loop(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+  document.querySelectorAll('a,button,.scard,.fcard,.tcard,.metric,.faq-item').forEach(el=>{
+    el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+  });
+})();
+
+// ── MAGNETIC BUTTONS ──
+document.querySelectorAll('.magnetic').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;
+    el.style.transform=`translate(${x*.15}px,${y*.15}px)`;
+  });
+  el.addEventListener('mouseleave',()=>{el.style.transform=''});
+});
+
+// ── NAV SCROLL ──
+const nw=document.getElementById('navWrap');
+const onScroll=()=>nw?.classList.toggle('scrolled',scrollY>50);
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// ── HAMBURGER ──
+const hb=document.getElementById('hamburger'),nl=document.getElementById('navLinks');
+if(hb&&nl){hb.addEventListener('click',()=>nl.classList.toggle('open'));nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')))}
+
+// ── SCROLL REVEAL ──
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+
+// ── COUNTERS ──
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const el=e.target,to=+el.dataset.count,pf=el.dataset.prefix||'',sf=el.dataset.suffix||'',dur=1200,st=performance.now();(function a(n){const p=Math.min((n-st)/dur,1),v=Math.round(to*(1-Math.pow(1-p,3)));el.textContent=pf+v+sf;if(p<1)requestAnimationFrame(a);else el.textContent=pf+to+sf})(st);cio.unobserve(el)}}),{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(e=>cio.observe(e));
+
+// ── SERVICE CARDS SPOTLIGHT ──
+document.querySelectorAll('.scard').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+
+// ── SERVICE SEARCH ──
+const scards=document.querySelectorAll('.scard'),sInput=document.getElementById('sSearch'),sCount=document.getElementById('sCount'),sEmpty=document.getElementById('serviceEmpty');
+function updCount(n){if(sCount)sCount.textContent=n+' service'+(n>1?'s':'');if(sEmpty)sEmpty.style.display=n?'none':'block'}
+if(sInput){sInput.addEventListener('input',e=>{const t=e.target.value.toLowerCase().trim();let v=0;scards.forEach(c=>{const m=!t||(c.dataset.cat||'').toLowerCase().includes(t)||c.textContent.toLowerCase().includes(t);c.style.display=m?'':'none';if(m)v++});updCount(v)});updCount(scards.length)}
+
+// ── FLOW TABS ──
+const ftabs=document.querySelectorAll('.ftab'),fpanels=document.querySelectorAll('.fpanel');
+function animFlow(id){const p=document.getElementById('ft-'+id);if(!p)return;const ns=p.querySelectorAll('.fnode');ns.forEach(n=>n.classList.remove('in'));void p.offsetWidth;ns.forEach(n=>n.classList.add('in'))}
+ftabs.forEach(t=>t.addEventListener('click',()=>{const tgt=t.dataset.p;ftabs.forEach(x=>x.classList.remove('on'));t.classList.add('on');fpanels.forEach(p=>p.classList.remove('on'));const p=document.getElementById('fp-'+tgt);if(p){p.classList.add('on');animFlow(tgt)}}));
+// Trigger on scroll
+const flowWrap=document.querySelector('.flow-wrap');
+if(flowWrap){const fio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const ap=flowWrap.querySelector('.fpanel.on');if(ap)animFlow(ap.id.replace('fp-',''));fio.unobserve(e.target)}}),{threshold:.12});fio.observe(flowWrap)}
+
+// Flow content spotlight
+document.querySelectorAll('.fcontent').forEach(c=>c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--fx',(e.clientX-r.left)+'px');c.style.setProperty('--fy',(e.clientY-r.top)+'px')}));
+
+// ── FAQ ──
+document.querySelectorAll('.faq-q').forEach(b=>b.addEventListener('click',()=>{const it=b.closest('.faq-item');if(!it)return;const was=it.classList.contains('open');document.querySelectorAll('.faq-item.open').forEach(i=>{if(i!==it){i.classList.remove('open');const ic=i.querySelector('.faq-ic');if(ic)ic.textContent='+'}});it.classList.toggle('open',!was)}));
+
+// ── CONTACT FORM ──
+const cf=document.getElementById('cForm');
+if(cf)cf.addEventListener('submit',e=>{e.preventDefault();const b=cf.querySelector('.btn');const o=b.innerHTML;b.innerHTML='&#x2713; Envoye !';b.style.background='var(--green-soft)';b.style.borderColor='rgba(34,197,94,.3)';b.style.color='#86efac';setTimeout(()=>{b.innerHTML=o;b.style.cssText='';cf.reset()},2500)});
+
+// ── SCROLL TO TOP ──
+const tt=document.getElementById('toTop');
+if(tt){addEventListener('scroll',()=>tt.classList.toggle('show',scrollY>500),{passive:true});tt.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}))}
+
+// ── FEE TOGGLE ──
+const feeTabs=document.querySelectorAll('.fee-tab');
+const feeSlider=document.getElementById('feeSlider');
+const feeValue=document.getElementById('feeValue');
+const feeSub=document.getElementById('feeSub');
+const feeBig=document.getElementById('feeBig');
+feeTabs.forEach(t=>t.addEventListener('click',()=>{
+  const mode=t.dataset.fee;
+  feeTabs.forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');
+  if(mode==='client'){
+    feeSlider.classList.add('right');
+    feeBig.style.opacity='0';
+    setTimeout(()=>{
+      feeValue.textContent='5% + 0,70\u20ac';
+      feeBig.style.fontSize='48px';
+      feeSub.textContent='Protection Garantie & Sequestre. Payez le juste prix pour securiser votre projet de A a Z.';
+      feeBig.style.opacity='1';
+    },150);
+  }else{
+    feeSlider.classList.remove('right');
+    feeBig.style.opacity='0';
+    setTimeout(()=>{
+      feeValue.textContent='2%';
+      feeBig.style.fontSize='64px';
+      feeSub.textContent='Gardez 98% de vos gains. La commission la plus basse du marche pour valoriser votre talent.';
+      feeBig.style.opacity='1';
+    },150);
+  }
+}));
+</script>
+</body>
+</html>

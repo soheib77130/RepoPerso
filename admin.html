@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Freelinko — Administration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-theme.css" />
+  <style>
+    :root{
+      --bg:#0b0f17;--card:#111827;--muted:#9ca3af;--text:#e5e7eb;
+      --accent:#22c55e;--accent2:#60a5fa;--accent3:#fbbf24;--danger:#fb7185;
+      --radius:18px;--shadow:0 16px 40px rgba(0,0,0,.35);
+      --shadow-soft:0 12px 28px rgba(0,0,0,.32);
+    }
+    *{box-sizing:border-box;margin:0}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(1200px 800px at 20% 10%,rgba(96,165,250,.18),transparent 55%),
+        radial-gradient(900px 700px at 80% 0%,rgba(34,197,94,.15),transparent 55%),
+        linear-gradient(180deg,rgba(7,11,18,.8),rgba(7,11,18,1)),var(--bg);
+      color:var(--text);line-height:1.5;
+    }
+    a{color:inherit;text-decoration:none}
+    ::selection{background:rgba(96,165,250,.35)}
+
+    .container{max-width:1140px;margin:0 auto;padding:20px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800}
+    .nav-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:14px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.06);color:var(--text);font-size:13px;transition:all .2s ease}
+    .btn:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.1);box-shadow:0 8px 16px rgba(0,0,0,.2);transform:translateY(-1px)}
+    .btn:active{transform:translateY(0)}
+    .btn.primary{background:linear-gradient(135deg,var(--accent2),var(--accent));border-color:transparent;color:#061019;box-shadow:0 14px 28px rgba(34,197,94,.22)}
+    .btn.primary:hover{filter:brightness(1.08)}
+    .btn.danger{background:rgba(251,113,133,.15);border-color:rgba(251,113,133,.3);color:#fb7185}
+    .btn.sm{padding:7px 12px;font-size:12px;border-radius:10px}
+
+    .card{border:1px solid rgba(255,255,255,.08);background:rgba(17,24,39,.55);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-soft);backdrop-filter:blur(8px);margin-bottom:14px}
+    .card h3{font-size:16px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-weight:700;font-size:11px;border:1px solid rgba(96,165,250,.22);background:rgba(96,165,250,.12)}
+    .pill.green{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.12);color:#86efac}
+    .pill.yellow{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.12);color:#fde68a}
+    .pill.red{border-color:rgba(251,113,133,.3);background:rgba(251,113,133,.12);color:#fda4af}
+
+    .hint{color:var(--muted);font-weight:600;font-size:13px}
+
+    .mission-card{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);border-radius:16px;padding:16px;margin-bottom:12px;transition:border-color .2s}
+    .mission-card:hover{border-color:rgba(96,165,250,.3)}
+    .mission-card h4{font-size:15px;margin-bottom:8px}
+    .detail-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px}
+    .detail-row .dl{font-weight:600;color:var(--muted)}
+    .detail-row .dd{font-weight:700}
+
+    .file-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:13px;margin-bottom:4px}
+
+    /* Login form */
+    .login-card{max-width:400px;margin:80px auto}
+    .login-card input{width:100%;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(17,24,39,.7);color:var(--text);font-weight:600;font-family:inherit;margin-bottom:10px}
+    .login-card input:focus{outline:none;border-color:rgba(96,165,250,.5);box-shadow:0 0 0 3px rgba(96,165,250,.15)}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    .fade-in{animation:fadeUp .5s ease both}
+    .fade-in.d1{animation-delay:.1s}.fade-in.d2{animation-delay:.2s}
+
+    #loginSection{display:block}
+    #adminSection{display:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Nav -->
+    <header class="nav fade-in">
+      <a class="brand" href="index.html">
+        <svg height="38" viewBox="0 0 260 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="260" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#22c55e"/><stop offset="50%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient></defs>
+          <path d="M8 22a8 8 0 010-11.3l2.8-2.8a1 1 0 011.4 1.4L9.4 12.1a6 6 0 008.5 8.5l2.8-2.8a1 1 0 011.4 1.4l-2.8 2.8A8 8 0 018 22z" fill="url(#logoGrad)"/>
+          <path d="M30 16a8 8 0 010 11.3l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8a6 6 0 00-8.5-8.5l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8A8 8 0 0130 16z" fill="url(#logoGrad)"/>
+          <text x="42" y="28" font-family="'Space Grotesk','Inter',sans-serif" font-weight="700" font-size="26" fill="url(#logoGrad)" letter-spacing="1">FREELINKO</text>
+        </svg>
+      </a>
+      <div class="nav-actions">
+        <span class="pill yellow">Administration</span>
+        <button class="btn danger" type="button" data-logout style="display:none">Se déconnecter</button>
+      </div>
+    </header>
+
+    <!-- Login Section -->
+    <div id="loginSection">
+      <div class="card login-card fade-in">
+        <h3>Connexion administrateur</h3>
+        <p class="hint" style="margin-bottom:16px">Accès réservé aux administrateurs Freelinko.</p>
+        <input type="email" id="adminEmail" placeholder="Email" />
+        <input type="password" id="adminPassword" placeholder="Mot de passe" />
+        <p class="hint" id="loginError" style="color:var(--danger);display:none;margin-bottom:10px"></p>
+        <button class="btn primary" id="adminLoginBtn" style="width:100%">Se connecter</button>
+      </div>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="adminSection">
+      <div class="card fade-in">
+        <h1 style="font-size:22px;margin-bottom:4px">Panel Administrateur</h1>
+        <p class="hint">Vérifiez les livrables et validez les missions terminées.</p>
+      </div>
+
+      <div class="card fade-in d1">
+        <h3>Missions en vérification</h3>
+        <p class="hint" style="margin-bottom:12px">Missions livrées par les indépendants, en attente de votre validation.</p>
+        <div id="verificationList">
+          <p class="hint">Chargement...</p>
+        </div>
+      </div>
+
+      <div class="card fade-in d2">
+        <h3>Missions récemment validées</h3>
+        <div id="validatedList">
+          <p class="hint">Chargement...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="admin.js?v=20260331"></script>
+</body>
+</html>

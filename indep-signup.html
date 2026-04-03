@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Freelinko — Inscription indépendant</title>
+  <meta name="description" content="Inscription indépendant Freelinko." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-theme.css" />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --accent:#22c55e;
+      --accent2:#60a5fa;
+      --radius:18px;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
+      --shadow-soft: 0 12px 28px rgba(0,0,0,.32);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(96,165,250,.2), transparent 55%),
+        radial-gradient(900px 700px at 80% 0%, rgba(34,197,94,.18), transparent 55%),
+        linear-gradient(180deg, rgba(7,11,18,.8), rgba(7,11,18,1)),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    ::selection{background:rgba(96,165,250,.35); color:#0b1220}
+    .container{max-width:980px; margin:0 auto; padding:24px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display:grid; place-items:center; font-weight:900; color:#071018;
+      box-shadow: 0 12px 26px rgba(96,165,250,.24);
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(17,24,39,.6);
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+    }
+    .card h1{margin:0 0 6px; font-size:28px}
+    .hint{color:var(--muted); font-weight:650; margin:0 0 16px}
+    .formGrid{display:grid; gap:12px}
+    .formRow{display:grid; gap:12px; grid-template-columns: repeat(2, minmax(0, 1fr))}
+    @media (max-width: 640px){ .formRow{grid-template-columns:1fr} }
+    .inputWrap{position:relative}
+    .inputToggle{
+      position:absolute; right:10px; top:50%; transform: translateY(-50%);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      border-radius: 10px;
+      padding:6px 8px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .helper{color:var(--muted); font-weight:650; font-size:13px}
+    input, textarea, select{
+      width:100%;
+      padding:12px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(17,24,39,.7);
+      color:var(--text);
+      font-weight:650;
+      font-family: inherit;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible{
+      outline:none;
+      border-color: rgba(96,165,250,.6);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.2);
+      background: rgba(17,24,39,.85);
+    }
+    textarea{min-height:100px; resize:vertical}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 14px; border-radius:14px; font-weight:800; cursor:pointer;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .08s ease;
+    }
+    .btn:hover{border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.1); box-shadow: 0 10px 18px rgba(0,0,0,.2)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      border-color: transparent; color:#061019;
+      box-shadow: 0 18px 30px rgba(34,197,94,.25);
+    }
+    .btn:focus-visible{outline:2px solid rgba(96,165,250,.7); outline-offset:2px}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    .progressWrap{display:grid; gap:6px}
+    .progressTrack{
+      height:10px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .progressFill{height:100%; width:0%; background: linear-gradient(135deg, var(--accent2), var(--accent)); transition: width .2s ease}
+    .progressText{color:var(--muted); font-weight:650; font-size:13px}
+    .status{font-size:13px; color:var(--muted); font-weight:650}
+    .stepsNote{
+      margin-top:14px;
+      border:1px dashed rgba(34,197,94,.35);
+      background: rgba(34,197,94,.08);
+      border-radius: 14px;
+      padding:12px;
+      color:#baf7cd;
+      font-weight:650;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <div class="logo">S</div>
+        <div>Freelinko</div>
+      </a>
+      <a class="btn" href="index.html#independant">Retour à l'espace indépendant</a>
+    </header>
+
+    <section class="card">
+      <h1>Inscription indépendant</h1>
+      <p class="hint">Profil complet pour recevoir des missions mieux qualifiées.</p>
+      <form class="formGrid" id="indepSignupForm">
+        <div class="formRow">
+          <input type="text" name="firstname" placeholder="Prénom" required />
+          <input type="text" name="lastname" placeholder="Nom" required />
+        </div>
+        <div class="formRow">
+          <input type="email" name="email" placeholder="Email pro" required />
+          <input type="tel" name="phone" placeholder="Téléphone" required />
+        </div>
+        <div class="formRow">
+          <input type="text" name="city" placeholder="Ville" required />
+          <input type="text" name="status" placeholder="Statut (auto-entrepreneur, SASU...)" required />
+        </div>
+        <div class="formRow">
+          <input type="url" name="portfolio" placeholder="Portfolio (URL)" required />
+          <input type="text" name="siret" placeholder="SIRET" required />
+        </div>
+        <div class="formRow">
+          <input type="number" name="dailyRate" placeholder="TJM (€)" min="0" required />
+          <select name="experience" required>
+            <option value="">Niveau d'expérience</option>
+            <option>Junior</option>
+            <option>Confirmé</option>
+            <option>Senior</option>
+          </select>
+        </div>
+        <textarea name="skills" placeholder="Compétences clés (ex: UI/UX, Webflow, SEO...)" required></textarea>
+        <div class="formRow">
+          <div class="inputWrap">
+            <input type="password" name="password" placeholder="Mot de passe" required />
+            <button class="inputToggle" type="button" data-toggle-password="main">Afficher</button>
+          </div>
+          <div class="inputWrap">
+            <input type="password" name="confirm" placeholder="Confirmer le mot de passe" required />
+            <button class="inputToggle" type="button" data-toggle-password="confirm">Afficher</button>
+          </div>
+        </div>
+        <div class="helper">Protégez votre compte : 8 caractères, 1 majuscule, 1 chiffre.</div>
+        <div class="progressWrap">
+          <div class="progressTrack"><div class="progressFill" id="indepProgress"></div></div>
+          <div class="progressText" id="indepProgressText">Complétez votre profil pour activer votre compte.</div>
+        </div>
+        <div class="status" id="indepStatus">Mot de passe : en attente.</div>
+        <label class="helper"><input type="checkbox" name="tips" /> Recevoir des conseils pour optimiser mon profil</label>
+        <div class="actions">
+          <button class="btn primary" type="submit">Créer mon compte indépendant</button>
+          <a class="btn" href="indep-login.html">Déjà inscrit ? Se connecter</a>
+        </div>
+      </form>
+      <div class="stepsNote">
+        Activez votre profil → recevez des missions → confirmez les livrables.
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://skfqoyyoahuaffshimnc.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_yxLCOU94zhGck9yvGYch5Q_ePCPd9Yq";
+    const indepSignupForm = document.getElementById("indepSignupForm");
+    const indepProgress = document.getElementById("indepProgress");
+    const indepProgressText = document.getElementById("indepProgressText");
+    const indepStatus = document.getElementById("indepStatus");
+    const supabaseClient = window.supabase?.createClient?.(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storage: window.localStorage
+      }
+    });
+    const toggleButtons = Array.from(document.querySelectorAll("[data-toggle-password]"));
+
+    function computeProgress(fields){
+      const total = fields.length;
+      const filled = fields.filter((field) => field.value.trim().length > 0).length;
+      return Math.round((filled / total) * 100);
+    }
+
+    function passwordStrength(password){
+      if (password.length >= 12 && /[A-Z]/.test(password) && /\d/.test(password)) return "Fort";
+      if (password.length >= 8) return "Correct";
+      return "Faible";
+    }
+
+    function updateIndepUI(){
+      if (!indepSignupForm) return;
+      const fields = Array.from(indepSignupForm.querySelectorAll("input, textarea, select"));
+      const progress = computeProgress(fields);
+      indepProgress.style.width = `${progress}%`;
+      indepProgressText.textContent = `Progression : ${progress}%`;
+
+      const password = indepSignupForm.querySelector("[name='password']").value;
+      const confirm = indepSignupForm.querySelector("[name='confirm']").value;
+      const strength = passwordStrength(password);
+      const match = password && confirm && password === confirm;
+      indepStatus.textContent = `Mot de passe : ${strength}${match ? " • correspond" : ""}`;
+    }
+
+    toggleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const fieldName = button.dataset.togglePassword === "confirm" ? "confirm" : "password";
+        const field = indepSignupForm?.querySelector(`[name='${fieldName}']`);
+        if (!field) return;
+        const isHidden = field.type === "password";
+        field.type = isHidden ? "text" : "password";
+        button.textContent = isHidden ? "Masquer" : "Afficher";
+      });
+    });
+
+    if (indepSignupForm){
+      indepSignupForm.addEventListener("input", updateIndepUI);
+      updateIndepUI();
+      indepSignupForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!supabaseClient){
+          alert("Configurez Supabase pour activer l'inscription.");
+          return;
+        }
+        const formData = new FormData(indepSignupForm);
+        const password = formData.get("password");
+        const confirm = formData.get("confirm");
+        if (password !== confirm){
+          alert("Les mots de passe ne correspondent pas.");
+          return;
+        }
+        const user = {
+          firstname: formData.get("firstname").toString().trim(),
+          lastname: formData.get("lastname").toString().trim(),
+          email: formData.get("email").toString().trim(),
+          phone: formData.get("phone").toString().trim(),
+          city: formData.get("city").toString().trim(),
+          status: formData.get("status").toString().trim(),
+          portfolio: formData.get("portfolio").toString().trim(),
+          siret: formData.get("siret").toString().trim(),
+          dailyRate: formData.get("dailyRate").toString().trim(),
+          experience: formData.get("experience").toString().trim(),
+          skills: formData.get("skills").toString().trim(),
+          password: password.toString()
+        };
+        const redirectTo = new URL("confirmed.html", window.location.href).toString();
+        supabaseClient.auth.signUp({
+          email: user.email,
+          password: user.password,
+          options: {
+            emailRedirectTo: redirectTo,
+            data: {
+              role: "independant",
+              firstname: user.firstname,
+              lastname: user.lastname
+            }
+          }
+        }).then(async ({ data, error }) => {
+          if (error){
+            alert(error.message);
+            return;
+          }
+          const userId = data.user?.id;
+          if (userId){
+            await supabaseClient.from("independants").insert({
+              user_id: userId,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              email: user.email,
+              phone: user.phone,
+              city: user.city,
+              status: user.status,
+              portfolio: user.portfolio,
+              siret: user.siret,
+              daily_rate: Number(user.dailyRate),
+              experience: user.experience,
+              skills: user.skills
+            });
+          }
+          alert("Compte indépendant créé ! Vérifiez votre email pour valider l'inscription.");
+          window.location.href = "indep-dashboard.html";
+        });
+      });
+    }
+  </script>
+</body>
+</html>

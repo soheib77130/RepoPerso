@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Freelinko — Inscription</title>
+  <meta name="description" content="Inscription Freelinko — client ou independant." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-theme.css" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#050a14;--surface:#0a1122;--surface2:#0f1730;
+      --border:rgba(255,255,255,.06);--border-hover:rgba(255,255,255,.12);
+      --text:#cdd5e0;--text-secondary:#7a8599;--white:#f0f4ff;
+      --blue:#3b82f6;--blue-soft:rgba(59,130,246,.12);--blue-glow:rgba(59,130,246,.25);
+      --green:#22c55e;--green-soft:rgba(34,197,94,.12);--green-glow:rgba(34,197,94,.25);
+      --radius:16px;--radius-lg:24px;--radius-xl:32px;
+      --ease:cubic-bezier(.22,1,.36,1);
+      --font:'Inter',system-ui,-apple-system,sans-serif;
+      --font-display:'Space Grotesk','Inter',sans-serif;
+    }
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 24px 60px}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit;cursor:pointer}
+    ::selection{background:rgba(59,130,246,.25);color:var(--white)}
+
+    /* Ambient */
+    .grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.025;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E") repeat}
+    .glow-orb{position:fixed;border-radius:50%;pointer-events:none;filter:blur(120px);z-index:0}
+    .glow-orb.blue{width:500px;height:500px;top:-10%;left:10%;background:rgba(59,130,246,.12)}
+    .glow-orb.green{width:400px;height:400px;bottom:-5%;right:10%;background:rgba(34,197,94,.1)}
+
+    /* Nav */
+    .nav{max-width:680px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:32px;margin-top:16px;position:relative;z-index:2}
+    .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--white);letter-spacing:-.3px}
+    .logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;box-shadow:0 0 24px var(--blue-glow);transition:transform .3s var(--ease)}
+    .logo-mark:hover{transform:scale(1.1) rotate(-3deg)}
+    .nav-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:10px;font-size:14px;font-weight:700;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text);transition:all .25s var(--ease)}
+    .nav-btn:hover{border-color:var(--border-hover);background:rgba(255,255,255,.07);transform:translateY(-1px)}
+
+    /* Card */
+    .card{max-width:680px;width:100%;position:relative;z-index:2;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-xl);padding:40px;overflow:hidden;box-shadow:0 0 80px rgba(59,130,246,.04),0 40px 80px rgba(0,0,0,.35);animation:cardIn .6s var(--ease) both}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.5),rgba(34,197,94,.5),transparent)}
+    .card::after{content:'';position:absolute;inset:0;background:radial-gradient(300px circle at 80% 20%,rgba(59,130,246,.05),transparent 60%);pointer-events:none}
+    @keyframes cardIn{from{opacity:0;transform:translateY(20px)}}
+
+    .card h1{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--white);margin-bottom:6px;position:relative;z-index:1;transition:all .3s var(--ease)}
+    .hint{color:var(--text-secondary);font-weight:500;font-size:15px;margin-bottom:24px;position:relative;z-index:1;transition:all .3s var(--ease)}
+
+    /* Toggle */
+    .role-toggle{position:relative;display:flex;margin-bottom:24px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.02);padding:4px;width:fit-content;z-index:1}
+    .role-toggle .slider{position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--green));box-shadow:0 0 20px var(--blue-glow);transition:transform .4s var(--ease);z-index:0}
+    .role-toggle.indep .slider{transform:translateX(100%)}
+    .role-toggle button{position:relative;z-index:1;padding:10px 28px;border:none;background:transparent;color:var(--text-secondary);font-weight:700;font-size:14px;cursor:pointer;transition:color .3s ease;font-family:inherit;border-radius:11px}
+    .role-toggle button.active{color:#050a14}
+
+    /* Form */
+    .formGrid{display:grid;gap:14px;position:relative;z-index:1}
+    .formRow{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media(max-width:640px){.formRow{grid-template-columns:1fr}}
+    .inputWrap{position:relative}
+    input[type="email"],input[type="password"],input[type="text"],input[type="tel"],input[type="url"],input[type="number"],textarea,select{
+      width:100%;padding:14px 18px;border-radius:14px;border:1px solid var(--border);
+      background:rgba(255,255,255,.03);color:var(--white);font-size:15px;font-weight:500;
+      font-family:inherit;transition:all .25s ease;
+    }
+    input:focus,textarea:focus,select:focus{outline:none;border-color:rgba(59,130,246,.4);box-shadow:0 0 0 4px rgba(59,130,246,.08);background:rgba(255,255,255,.05)}
+    input::placeholder,textarea::placeholder{color:rgba(122,133,153,.5)}
+    textarea{min-height:100px;resize:vertical}
+    select{appearance:none;cursor:pointer}
+    .inputToggle{
+      position:absolute;right:12px;top:50%;transform:translateY(-50%);
+      border:1px solid var(--border);background:rgba(255,255,255,.04);
+      color:var(--text-secondary);border-radius:8px;padding:5px 10px;font-size:12px;
+      font-weight:700;cursor:pointer;transition:all .2s ease;
+    }
+    .inputToggle:hover{border-color:var(--border-hover);background:rgba(255,255,255,.07);color:var(--white)}
+
+    .helper{color:var(--text-secondary);font-weight:500;font-size:13px;position:relative;z-index:1}
+
+    /* Progress */
+    .progressWrap{display:grid;gap:6px;position:relative;z-index:1}
+    .progressTrack{height:8px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden;border:1px solid var(--border)}
+    .progressFill{height:100%;width:0%;background:linear-gradient(135deg,var(--blue),var(--green));transition:width .3s var(--ease);border-radius:999px}
+    .progressText{color:var(--text-secondary);font-weight:600;font-size:13px}
+    .status{font-size:13px;color:var(--text-secondary);font-weight:600;position:relative;z-index:1}
+
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;position:relative;z-index:1}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:14px;font-size:15px;font-weight:700;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text);transition:all .25s var(--ease);cursor:pointer}
+    .btn:hover{border-color:var(--border-hover);background:rgba(255,255,255,.07);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+    .btn:active{transform:translateY(0)}
+    .btn-primary{background:var(--white);color:var(--bg);border-color:transparent;box-shadow:0 0 40px rgba(240,244,255,.08)}
+    .btn-primary:hover{box-shadow:0 0 50px rgba(240,244,255,.14),0 8px 30px rgba(0,0,0,.2);background:#fff}
+
+    .stepsNote{
+      margin-top:20px;padding:14px 18px;border-radius:14px;position:relative;z-index:1;
+      border:1px solid rgba(34,197,94,.15);background:var(--green-soft);
+      color:#86efac;font-weight:600;font-size:14px;
+      transition:all .4s var(--ease);
+    }
+
+    /* Content transition */
+    .fade-content{transition:opacity .25s ease, transform .25s ease}
+    .fade-content.switching{opacity:0;transform:translateY(6px)}
+
+    /* Indep fields animation */
+    .indep-fields{display:grid;gap:14px;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s var(--ease),opacity .35s ease,margin .3s ease;margin-top:0}
+    .indep-fields.visible{max-height:600px;opacity:1;margin-top:0}
+    .client-fields{display:grid;gap:14px;max-height:80px;overflow:hidden;opacity:1;transition:max-height .4s var(--ease),opacity .3s ease}
+    .client-fields.hidden{max-height:0;opacity:0}
+  </style>
+</head>
+<body>
+  <div class="grain"></div>
+  <div class="glow-orb blue"></div>
+  <div class="glow-orb green"></div>
+
+  <header class="nav">
+    <a class="brand" href="index.html">
+      <svg height="34" viewBox="0 0 260 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="logoGrad" x1="0" y1="0" x2="260" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#22c55e"/>
+            <stop offset="50%" stop-color="#06b6d4"/>
+            <stop offset="100%" stop-color="#3b82f6"/>
+          </linearGradient>
+        </defs>
+        <path d="M8 22a8 8 0 010-11.3l2.8-2.8a1 1 0 011.4 1.4L9.4 12.1a6 6 0 008.5 8.5l2.8-2.8a1 1 0 011.4 1.4l-2.8 2.8A8 8 0 018 22z" fill="url(#logoGrad)"/>
+        <path d="M30 16a8 8 0 010 11.3l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8a6 6 0 00-8.5-8.5l-2.8 2.8a1 1 0 01-1.4-1.4l2.8-2.8A8 8 0 0130 16z" fill="url(#logoGrad)"/>
+        <text x="42" y="28" font-family="'Space Grotesk','Inter',sans-serif" font-weight="700" font-size="26" fill="url(#logoGrad)" letter-spacing="1">FREELINKO</text>
+      </svg>
+    </a>
+    <a class="nav-btn" href="index.html">&larr; Retour</a>
+  </header>
+
+  <section class="card">
+    <div class="fade-content" id="fadeContent">
+      <h1 id="pageTitle">Inscription client</h1>
+      <p class="hint" id="pageHint">Creez votre compte pour deposer une demande et suivre votre projet.</p>
+    </div>
+
+    <div class="role-toggle" id="roleToggle">
+      <div class="slider"></div>
+      <button type="button" id="toggleClient" class="active" onclick="switchRole('client')">Client</button>
+      <button type="button" id="toggleIndep" onclick="switchRole('independant')">Independant</button>
+    </div>
+
+    <form class="formGrid" id="signupForm">
+      <div class="formRow">
+        <input type="text" name="firstname" placeholder="Prenom" required />
+        <input type="text" name="lastname" placeholder="Nom" required />
+      </div>
+      <div class="formRow">
+        <input type="email" name="email" id="emailField" placeholder="Email" required />
+        <input type="tel" name="phone" placeholder="Telephone" />
+      </div>
+
+      <!-- Champs independant -->
+      <div class="indep-fields" id="indepFields">
+        <div class="formRow">
+          <input type="text" name="city" placeholder="Ville" />
+          <input type="text" name="status" placeholder="Statut (auto-entrepreneur, SASU...)" />
+        </div>
+        <div class="formRow">
+          <input type="url" name="portfolio" placeholder="Portfolio (URL)" />
+          <input type="text" name="siret" placeholder="SIRET" />
+        </div>
+        <div class="formRow">
+          <input type="number" name="dailyRate" placeholder="TJM (euros)" min="0" />
+          <select name="experience">
+            <option value="">Niveau d'experience</option>
+            <option>Junior</option>
+            <option>Confirme</option>
+            <option>Senior</option>
+          </select>
+        </div>
+        <textarea name="skills" placeholder="Competences cles (ex: UI/UX, Webflow, SEO...)"></textarea>
+      </div>
+
+      <!-- Champ client -->
+      <div class="client-fields" id="clientFields">
+        <input type="text" name="company" placeholder="Nom de l'entreprise (optionnel)" />
+      </div>
+
+      <div class="formRow">
+        <div class="inputWrap">
+          <input type="password" name="password" placeholder="Mot de passe" required />
+          <button class="inputToggle" type="button" data-toggle-password="main">Afficher</button>
+        </div>
+        <div class="inputWrap">
+          <input type="password" name="confirm" placeholder="Confirmer le mot de passe" required />
+          <button class="inputToggle" type="button" data-toggle-password="confirm">Afficher</button>
+        </div>
+      </div>
+      <div class="helper">Astuce : 8 caracteres minimum, une majuscule et un chiffre.</div>
+
+      <div class="progressWrap">
+        <div class="progressTrack"><div class="progressFill" id="signupProgress"></div></div>
+        <div class="progressText" id="signupProgressText">Completez le formulaire pour activer votre compte.</div>
+      </div>
+      <div class="status" id="signupStatus">Mot de passe : en attente.</div>
+
+      <label class="helper" id="newsletterLabel"><input type="checkbox" name="newsletter" /> Recevoir des conseils pour bien briefer un independant</label>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit" id="submitBtn">Creer mon compte</button>
+        <a class="btn" href="connexion.html">Deja inscrit ? Se connecter</a>
+      </div>
+    </form>
+    <div class="stepsNote fade-content" id="stepsNote">
+      Etapes rapides : deposez votre brief &rarr; recevez des profils &rarr; validez la livraison.
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://skfqoyyoahuaffshimnc.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_yxLCOU94zhGck9yvGYch5Q_ePCPd9Yq";
+    const supabaseClient = window.supabase?.createClient?.(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, storage: window.localStorage }
+    });
+
+    let currentRole = "client";
+    const fadeContent = document.getElementById("fadeContent");
+    const stepsNote = document.getElementById("stepsNote");
+
+    function switchRole(role){
+      if (role === currentRole) return;
+      currentRole = role;
+
+      document.getElementById("toggleClient").classList.toggle("active", role === "client");
+      document.getElementById("toggleIndep").classList.toggle("active", role === "independant");
+      document.getElementById("roleToggle").classList.toggle("indep", role === "independant");
+
+      var indepFields = document.getElementById("indepFields");
+      var clientFields = document.getElementById("clientFields");
+      var indepInputs = indepFields.querySelectorAll("input, textarea, select");
+
+      // Animate content swap
+      fadeContent.classList.add("switching");
+      stepsNote.classList.add("switching");
+
+      setTimeout(function(){
+        if (role === "client"){
+          document.getElementById("pageTitle").textContent = "Inscription client";
+          document.getElementById("pageHint").textContent = "Creez votre compte pour deposer une demande et suivre votre projet.";
+          document.getElementById("emailField").placeholder = "Email";
+          document.getElementById("submitBtn").textContent = "Creer mon compte";
+          document.getElementById("newsletterLabel").innerHTML = '<input type="checkbox" name="newsletter" /> Recevoir des conseils pour bien briefer un independant';
+          stepsNote.innerHTML = 'Etapes rapides : deposez votre brief &rarr; recevez des profils &rarr; validez la livraison.';
+          stepsNote.style.borderColor = "rgba(34,197,94,.15)";
+          stepsNote.style.background = "rgba(34,197,94,.12)";
+          stepsNote.style.color = "#86efac";
+          indepFields.classList.remove("visible");
+          clientFields.classList.remove("hidden");
+          indepInputs.forEach(function(el){ el.removeAttribute("required"); });
+        } else {
+          document.getElementById("pageTitle").textContent = "Inscription independant";
+          document.getElementById("pageHint").textContent = "Profil complet pour recevoir des missions mieux qualifiees.";
+          document.getElementById("emailField").placeholder = "Email pro";
+          document.getElementById("submitBtn").textContent = "Creer mon compte independant";
+          document.getElementById("newsletterLabel").innerHTML = '<input type="checkbox" name="newsletter" /> Recevoir des conseils pour optimiser mon profil';
+          stepsNote.innerHTML = 'Activez votre profil &rarr; recevez des missions &rarr; confirmez les livrables.';
+          stepsNote.style.borderColor = "rgba(59,130,246,.15)";
+          stepsNote.style.background = "rgba(59,130,246,.12)";
+          stepsNote.style.color = "#93c5fd";
+          indepFields.classList.add("visible");
+          clientFields.classList.add("hidden");
+          indepInputs.forEach(function(el){ el.setAttribute("required", ""); });
+        }
+        fadeContent.classList.remove("switching");
+        stepsNote.classList.remove("switching");
+      }, 250);
+
+      setTimeout(updateSignupUI, 300);
+    }
+
+    // Password toggle
+    var toggleButtons = Array.from(document.querySelectorAll("[data-toggle-password]"));
+    toggleButtons.forEach(function(button){
+      button.addEventListener("click", function(){
+        var fieldName = button.dataset.togglePassword === "confirm" ? "confirm" : "password";
+        var field = document.querySelector("[name='" + fieldName + "']");
+        if (!field) return;
+        var isHidden = field.type === "password";
+        field.type = isHidden ? "text" : "password";
+        button.textContent = isHidden ? "Masquer" : "Afficher";
+      });
+    });
+
+    // Progress
+    var signupForm = document.getElementById("signupForm");
+    var signupProgress = document.getElementById("signupProgress");
+    var signupProgressText = document.getElementById("signupProgressText");
+    var signupStatus = document.getElementById("signupStatus");
+
+    function computeProgress(fields){
+      var total = fields.length;
+      var filled = fields.filter(function(f){ return f.value.trim().length > 0; }).length;
+      return Math.round((filled / total) * 100);
+    }
+
+    function passwordStrength(password){
+      if (password.length >= 12 && /[A-Z]/.test(password) && /\d/.test(password)) return "Fort";
+      if (password.length >= 8) return "Correct";
+      return "Faible";
+    }
+
+    function updateSignupUI(){
+      if (!signupForm) return;
+      var allFields = Array.from(signupForm.querySelectorAll("input, textarea, select"));
+      var fields = allFields.filter(function(f){
+        if (f.type === "checkbox" || f.type === "submit") return false;
+        return f.offsetParent !== null;
+      });
+      var progress = computeProgress(fields);
+      signupProgress.style.width = progress + "%";
+      signupProgressText.textContent = "Progression : " + progress + "%";
+
+      var password = signupForm.querySelector("[name='password']").value;
+      var confirm = signupForm.querySelector("[name='confirm']").value;
+      var strength = passwordStrength(password);
+      var match = password && confirm && password === confirm;
+      signupStatus.textContent = "Mot de passe : " + strength + (match ? " — correspond" : "");
+    }
+
+    if (signupForm){
+      signupForm.addEventListener("input", updateSignupUI);
+      updateSignupUI();
+
+      signupForm.addEventListener("submit", function(event){
+        event.preventDefault();
+        if (!supabaseClient){
+          alert("Configurez Supabase pour activer l'inscription.");
+          return;
+        }
+        var formData = new FormData(signupForm);
+        var password = formData.get("password");
+        var confirm = formData.get("confirm");
+        if (password !== confirm){
+          alert("Les mots de passe ne correspondent pas.");
+          return;
+        }
+
+        var redirectTo = new URL("confirmed.html", window.location.href).toString();
+
+        if (currentRole === "client"){
+          var payload = {
+            firstname: formData.get("firstname").toString().trim(),
+            lastname: formData.get("lastname").toString().trim(),
+            email: formData.get("email").toString().trim(),
+            company: formData.get("company").toString().trim()
+          };
+          supabaseClient.auth.signUp({
+            email: payload.email,
+            password: password.toString(),
+            options: {
+              emailRedirectTo: redirectTo,
+              data: { role: "client", firstname: payload.firstname, lastname: payload.lastname, company: payload.company }
+            }
+          }).then(async function(result){
+            if (result.error){ alert(result.error.message); return; }
+            var userId = result.data.user?.id;
+            if (userId){
+              await supabaseClient.from("clients").insert({
+                user_id: userId, firstname: payload.firstname, lastname: payload.lastname,
+                email: payload.email, company: payload.company
+              });
+            }
+            alert("Compte cree ! Verifiez votre email pour valider l'inscription.");
+            if (window.localStorage.getItem("freelinko-request-draft")){
+              window.location.href = "request.html"; return;
+            }
+            window.location.href = "dashboard.html";
+          });
+        } else {
+          var user = {
+            firstname: formData.get("firstname").toString().trim(),
+            lastname: formData.get("lastname").toString().trim(),
+            email: formData.get("email").toString().trim(),
+            phone: formData.get("phone").toString().trim(),
+            city: formData.get("city").toString().trim(),
+            status: formData.get("status").toString().trim(),
+            portfolio: formData.get("portfolio").toString().trim(),
+            siret: formData.get("siret").toString().trim(),
+            dailyRate: formData.get("dailyRate").toString().trim(),
+            experience: formData.get("experience").toString().trim(),
+            skills: formData.get("skills").toString().trim()
+          };
+          supabaseClient.auth.signUp({
+            email: user.email,
+            password: password.toString(),
+            options: {
+              emailRedirectTo: redirectTo,
+              data: { role: "independant", firstname: user.firstname, lastname: user.lastname }
+            }
+          }).then(async function(result){
+            if (result.error){ alert(result.error.message); return; }
+            var userId = result.data.user?.id;
+            if (userId){
+              await supabaseClient.from("independants").insert({
+                user_id: userId, firstname: user.firstname, lastname: user.lastname,
+                email: user.email, phone: user.phone, city: user.city, status: user.status,
+                portfolio: user.portfolio, siret: user.siret, daily_rate: Number(user.dailyRate),
+                experience: user.experience, skills: user.skills
+              });
+            }
+            alert("Compte independant cree ! Verifiez votre email pour valider l'inscription.");
+            window.location.href = "indep-dashboard.html";
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

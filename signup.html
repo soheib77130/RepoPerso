@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Freelinko — Inscription client</title>
+  <meta name="description" content="Inscription client Freelinko." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site-theme.css" />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --card:#111827;
+      --muted:#9ca3af;
+      --text:#e5e7eb;
+      --line:#1f2937;
+      --accent:#22c55e;
+      --accent2:#60a5fa;
+      --radius:18px;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
+      --shadow-soft: 0 12px 28px rgba(0,0,0,.32);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(96,165,250,.2), transparent 55%),
+        radial-gradient(900px 700px at 80% 0%, rgba(34,197,94,.18), transparent 55%),
+        linear-gradient(180deg, rgba(7,11,18,.8), rgba(7,11,18,1)),
+        var(--bg);
+      color:var(--text);
+      line-height:1.5;
+    }
+    a{color:inherit; text-decoration:none}
+    ::selection{background:rgba(96,165,250,.35); color:#0b1220}
+    .container{max-width:900px; margin:0 auto; padding:24px}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .logo{
+      width:36px; height:36px; border-radius:12px;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display:grid; place-items:center; font-weight:900; color:#071018;
+      box-shadow: 0 12px 26px rgba(96,165,250,.24);
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(17,24,39,.6);
+      border-radius: var(--radius);
+      padding:20px;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+    }
+    .card h1{margin:0 0 6px; font-size:28px}
+    .hint{color:var(--muted); font-weight:650; margin:0 0 16px}
+    .formGrid{display:grid; gap:12px}
+    .formRow{display:grid; gap:12px; grid-template-columns: repeat(2, minmax(0, 1fr))}
+    @media (max-width: 640px){ .formRow{grid-template-columns:1fr} }
+    .inputWrap{position:relative}
+    .inputToggle{
+      position:absolute; right:10px; top:50%; transform: translateY(-50%);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      border-radius: 10px;
+      padding:6px 8px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .helper{color:var(--muted); font-weight:650; font-size:13px}
+    input{
+      width:100%;
+      padding:12px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(17,24,39,.7);
+      color:var(--text);
+      font-weight:650;
+      font-family: inherit;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    input:focus-visible{
+      outline:none;
+      border-color: rgba(96,165,250,.6);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.2);
+      background: rgba(17,24,39,.85);
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 14px; border-radius:14px; font-weight:800; cursor:pointer;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      transition: border-color .2s ease, background .2s ease, box-shadow .2s ease, transform .08s ease;
+    }
+    .btn:hover{border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.1); box-shadow: 0 10px 18px rgba(0,0,0,.2)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      border-color: transparent; color:#061019;
+      box-shadow: 0 18px 30px rgba(34,197,94,.25);
+    }
+    .btn:focus-visible{outline:2px solid rgba(96,165,250,.7); outline-offset:2px}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    .progressWrap{display:grid; gap:6px}
+    .progressTrack{
+      height:10px; border-radius:999px; background: rgba(255,255,255,.08); overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .progressFill{height:100%; width:0%; background: linear-gradient(135deg, var(--accent2), var(--accent)); transition: width .2s ease}
+    .progressText{color:var(--muted); font-weight:650; font-size:13px}
+    .status{font-size:13px; color:var(--muted); font-weight:650}
+    .stepsNote{
+      margin-top:14px;
+      border:1px dashed rgba(34,197,94,.35);
+      background: rgba(34,197,94,.08);
+      border-radius: 14px;
+      padding:12px;
+      color:#baf7cd;
+      font-weight:650;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="nav">
+      <a class="brand" href="index.html">
+        <div class="logo">S</div>
+        <div>Freelinko</div>
+      </a>
+      <a class="btn" href="index.html#client">Retour à l'espace client</a>
+    </header>
+
+    <section class="card">
+      <h1>Inscription client</h1>
+      <p class="hint">Créez votre compte pour déposer une demande et suivre votre projet.</p>
+      <form class="formGrid" id="signupForm">
+        <div class="formRow">
+          <input type="text" name="firstname" placeholder="Prénom" required />
+          <input type="text" name="lastname" placeholder="Nom" required />
+        </div>
+        <div class="formRow">
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="tel" name="phone" placeholder="Téléphone" />
+        </div>
+        <div class="formRow">
+          <div class="inputWrap">
+            <input type="password" name="password" placeholder="Mot de passe" required />
+            <button class="inputToggle" type="button" data-toggle-password="main">Afficher</button>
+          </div>
+          <div class="inputWrap">
+            <input type="password" name="confirm" placeholder="Confirmer le mot de passe" required />
+            <button class="inputToggle" type="button" data-toggle-password="confirm">Afficher</button>
+          </div>
+        </div>
+        <div class="helper">Astuce : 8 caractères minimum, une majuscule et un chiffre pour un compte sécurisé.</div>
+        <input type="text" name="company" placeholder="Nom de l'entreprise (optionnel)" />
+        <div class="progressWrap">
+          <div class="progressTrack"><div class="progressFill" id="signupProgress"></div></div>
+          <div class="progressText" id="signupProgressText">Complétez le formulaire pour activer votre compte.</div>
+        </div>
+        <div class="status" id="signupStatus">Mot de passe : en attente.</div>
+        <label class="helper"><input type="checkbox" name="newsletter" /> Recevoir des conseils pour bien briefer un indépendant</label>
+        <div class="actions">
+          <button class="btn primary" type="submit">Créer mon compte</button>
+          <a class="btn" href="login.html">Déjà inscrit ? Se connecter</a>
+        </div>
+      </form>
+      <div class="stepsNote">
+        Étapes rapides : déposez votre brief → recevez des profils → validez la livraison.
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://skfqoyyoahuaffshimnc.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_yxLCOU94zhGck9yvGYch5Q_ePCPd9Yq";
+
+    const signupForm = document.getElementById("signupForm");
+    const signupProgress = document.getElementById("signupProgress");
+    const signupProgressText = document.getElementById("signupProgressText");
+    const signupStatus = document.getElementById("signupStatus");
+    const supabaseClient = window.supabase?.createClient?.(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storage: window.localStorage
+      }
+    });
+    const toggleButtons = Array.from(document.querySelectorAll("[data-toggle-password]"));
+
+    function computeProgress(fields){
+      const total = fields.length;
+      const filled = fields.filter((field) => field.value.trim().length > 0).length;
+      return Math.round((filled / total) * 100);
+    }
+
+    function passwordStrength(password){
+      if (password.length >= 12 && /[A-Z]/.test(password) && /\\d/.test(password)) return "Fort";
+      if (password.length >= 8) return "Correct";
+      return "Faible";
+    }
+
+    function updateSignupUI(){
+      if (!signupForm) return;
+      const fields = Array.from(signupForm.querySelectorAll("input"));
+      const progress = computeProgress(fields);
+      signupProgress.style.width = `${progress}%`;
+      signupProgressText.textContent = `Progression : ${progress}%`;
+
+      const password = signupForm.querySelector("[name='password']").value;
+      const confirm = signupForm.querySelector("[name='confirm']").value;
+      const strength = passwordStrength(password);
+      const match = password && confirm && password === confirm;
+      signupStatus.textContent = `Mot de passe : ${strength}${match ? " • correspond" : ""}`;
+    }
+
+    toggleButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const fieldName = button.dataset.togglePassword === "confirm" ? "confirm" : "password";
+        const field = signupForm?.querySelector(`[name='${fieldName}']`);
+        if (!field) return;
+        const isHidden = field.type === "password";
+        field.type = isHidden ? "text" : "password";
+        button.textContent = isHidden ? "Masquer" : "Afficher";
+      });
+    });
+
+    if (signupForm){
+      signupForm.addEventListener("input", updateSignupUI);
+      updateSignupUI();
+      signupForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!supabaseClient){
+          alert("Configurez Supabase pour activer l'inscription.");
+          return;
+        }
+        const formData = new FormData(signupForm);
+        const password = formData.get("password");
+        const confirm = formData.get("confirm");
+        if (password !== confirm){
+          alert("Les mots de passe ne correspondent pas.");
+          return;
+        }
+        const payload = {
+          firstname: formData.get("firstname").toString().trim(),
+          lastname: formData.get("lastname").toString().trim(),
+          email: formData.get("email").toString().trim(),
+          company: formData.get("company").toString().trim()
+        };
+        const redirectTo = new URL("confirmed.html", window.location.href).toString();
+        supabaseClient.auth.signUp({
+          email: payload.email,
+          password: password.toString(),
+          options: {
+            emailRedirectTo: redirectTo,
+            data: {
+              role: "client",
+              firstname: payload.firstname,
+              lastname: payload.lastname,
+              company: payload.company
+            }
+          }
+        }).then(async ({ data, error }) => {
+          if (error){
+            alert(error.message);
+            return;
+          }
+          const userId = data.user?.id;
+          if (userId){
+            await supabaseClient.from("clients").insert({
+              user_id: userId,
+              firstname: payload.firstname,
+              lastname: payload.lastname,
+              email: payload.email,
+              company: payload.company
+            });
+          }
+          alert("Compte créé ! Vérifiez votre email pour valider l'inscription.");
+          if (window.localStorage.getItem("freelinko-request-draft")){
+            window.location.href = "request.html";
+            return;
+          }
+          window.location.href = "dashboard.html";
+        });
+      });
+    }
+  </script>
+</body>
+</html>
